@@ -1,8 +1,8 @@
 
 cmake_minimum_required(VERSION 3.31 FATAL_ERROR)
 
-# [TODO] Add Project Name
-project(
+
+project(hollow-lantern
   VERSION 0.0.0.0
   LANGUAGES CXX)
 
@@ -24,15 +24,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # set the cmake module path (for import libraries and other cmake files)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/FetchContentModules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/fetch-content-modules")
 
 
 # fetch_content_modules.cmake contains a menu list of all fetch content
 # scripts to include. to keep top level cmake tidier
-include(fetch_content_modules)
+include(fetch-content-modules)
 
 add_subdirectory(config)
 add_subdirectory(src)
+add_subdirectory(hollow-lantern)
 add_subdirectory(tests)
 
 

@@ -1,0 +1,32 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "Clang",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test",
+	"dir-cur-src" : "/home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test",
+	"dir-top-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
+	"dir-top-src" : "/home/bwallis/projects/walliscode/hollow-lantern",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test",
+		"_deps/catch2-src/src/catch2/..",
+		"_deps/catch2-build/generated-includes"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/CMakeFiles/hollow-lantern-tests.dir",
+	"sources" : 
+	{
+		"tests/hollow-lantern-test/CMakeFiles/hollow-lantern-tests.dir/hollow-lantern.test.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/hollow-lantern.test.cpp"
+		}
+	}
+}
