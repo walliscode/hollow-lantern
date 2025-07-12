@@ -1,0 +1,9 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o"
+    }
+  ],
+  "version": 1
+}

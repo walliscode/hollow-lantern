@@ -1,0 +1,30 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "Clang",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config",
+	"dir-cur-src" : "/home/bwallis/projects/walliscode/hollow-lantern/config",
+	"dir-top-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
+	"dir-top-src" : "/home/bwallis/projects/walliscode/hollow-lantern",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/bwallis/projects/walliscode/hollow-lantern/config"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/CMakeFiles/directory_paths.dir",
+	"sources" : 
+	{
+		"config/CMakeFiles/directory_paths.dir/directory_paths.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/directory_paths.cpp"
+		}
+	}
+}
