@@ -1,0 +1,9 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o"
+    }
+  ],
+  "version": 1
+}

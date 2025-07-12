@@ -16,6 +16,10 @@
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/CMakeFiles/test.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/CMakeFiles/edit_cache.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/CMakeFiles/rebuild_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/readers.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/test.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/edit_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/rebuild_cache.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/test.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/edit_cache.dir
@@ -27,3 +31,7 @@
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/CMakeFiles/test.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/CMakeFiles/edit_cache.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/CMakeFiles/rebuild_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/test_readers.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/test.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/edit_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/rebuild_cache.dir

@@ -6,9 +6,11 @@
 		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/src/cmake_install.cmake",
 		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/cmake_install.cmake",
 		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/cmake_install.cmake",
+		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/cmake_install.cmake",
 		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/cmake_install.cmake",
 		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/cmake_install.cmake",
-		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/cmake_install.cmake"
+		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/cmake_install.cmake",
+		"/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

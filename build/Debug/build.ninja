@@ -1188,6 +1188,93 @@ build src/rebuild_cache: phony src/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
+# /home/bwallis/projects/walliscode/hollow-lantern/src/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target readers
+
+
+#############################################
+# Order-only phony target for readers
+
+build cmake_object_order_depends_target_readers: phony || .
+
+build src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.ddi: CXX_SCAN__readers_Debug /home/bwallis/projects/walliscode/hollow-lantern/src/readers/VoxReader.cpp || cmake_object_order_depends_target_readers
+  DEP_FILE = src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.ddi
+  FLAGS = -g -std=gnu++23
+  INCLUDES = -I/home/bwallis/projects/walliscode/hollow-lantern/src/readers
+  OBJ_FILE = src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o
+  PREPROCESSED_OUTPUT_FILE = src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.ddi.i
+
+build src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o: CXX_COMPILER__readers_scanned_Debug /home/bwallis/projects/walliscode/hollow-lantern/src/readers/VoxReader.cpp | src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.modmap || cmake_object_order_depends_target_readers src/readers/CMakeFiles/readers.dir/CXX.dd
+  CONFIG = Debug
+  DEP_FILE = src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.modmap
+  FLAGS = -g -std=gnu++23
+  INCLUDES = -I/home/bwallis/projects/walliscode/hollow-lantern/src/readers
+  OBJECT_DIR = src/readers/CMakeFiles/readers.dir
+  OBJECT_FILE_DIR = src/readers/CMakeFiles/readers.dir
+  dyndep = src/readers/CMakeFiles/readers.dir/CXX.dd
+
+build src/readers/CMakeFiles/readers.dir/CXX.dd | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/readers.dir/CXXModules.json src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.modmap: CXX_DYNDEP__readers_Debug src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o.ddi | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/readers.dir/CXXDependInfo.json
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target readers
+
+
+#############################################
+# Link the static library src/readers/libreaders.a
+
+build src/readers/libreaders.a: CXX_STATIC_LIBRARY_LINKER__readers_Debug src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o
+  CONFIG = Debug
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = src/readers/CMakeFiles/readers.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = src/readers/libreaders.a
+  TARGET_PDB = readers.a.dbg
+
+
+#############################################
+# Utility command for test
+
+build src/readers/CMakeFiles/test.util: CUSTOM_COMMAND
+  COMMAND = cd /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers && /opt/cmake/bin/ctest
+  DESC = Running tests...
+  pool = console
+  restat = 1
+
+build src/readers/test: phony src/readers/CMakeFiles/test.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/readers/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers && /opt/cmake/bin/ccmake -S/home/bwallis/projects/walliscode/hollow-lantern -B/home/bwallis/projects/walliscode/hollow-lantern/build/Debug
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build src/readers/edit_cache: phony src/readers/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/readers/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers && /opt/cmake/bin/cmake --regenerate-during-build -S/home/bwallis/projects/walliscode/hollow-lantern -B/home/bwallis/projects/walliscode/hollow-lantern/build/Debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/readers/rebuild_cache: phony src/readers/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
 # /home/bwallis/projects/walliscode/hollow-lantern/CMakeLists.txt
 # =============================================================================
 
@@ -1216,23 +1303,7 @@ build hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o: CXX_COMPILER__hol
   OBJECT_FILE_DIR = hollow-lantern/CMakeFiles/hollow-lantern.dir
   dyndep = hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd
 
-build hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.ddi: CXX_SCAN__hollow-lantern_Debug /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/quick_class.cpp || cmake_object_order_depends_target_hollow-lantern
-  DEP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.ddi
-  FLAGS = -g -std=gnu++23
-  OBJ_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o
-  PREPROCESSED_OUTPUT_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.ddi.i
-
-build hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o: CXX_COMPILER__hollow-lantern_scanned_Debug /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/quick_class.cpp | hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.modmap || cmake_object_order_depends_target_hollow-lantern hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd
-  CONFIG = Debug
-  DEP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.modmap
-  FLAGS = -g -std=gnu++23
-  OBJECT_DIR = hollow-lantern/CMakeFiles/hollow-lantern.dir
-  OBJECT_FILE_DIR = hollow-lantern/CMakeFiles/hollow-lantern.dir
-  dyndep = hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd
-
-build hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir/CXXModules.json hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.modmap hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.modmap: CXX_DYNDEP__hollow-lantern_Debug hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.ddi hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o.ddi | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir/CXXDependInfo.json
+build hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir/CXXModules.json hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.modmap: CXX_DYNDEP__hollow-lantern_Debug hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.ddi | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir/CXXDependInfo.json
 
 
 # =============================================================================
@@ -1242,7 +1313,7 @@ build hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd | /home/bwallis/projec
 #############################################
 # Link the executable hollow-lantern/hollow-lantern
 
-build hollow-lantern/hollow-lantern: CXX_EXECUTABLE_LINKER__hollow-lantern_Debug hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o
+build hollow-lantern/hollow-lantern: CXX_EXECUTABLE_LINKER__hollow-lantern_Debug hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o
   CONFIG = Debug
   DEP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/link.d
   FLAGS = -g
@@ -1422,6 +1493,91 @@ build tests/hollow-lantern-test/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
 build tests/hollow-lantern-test/rebuild_cache: phony tests/hollow-lantern-test/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/bwallis/projects/walliscode/hollow-lantern/tests/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target test_readers
+
+
+#############################################
+# Order-only phony target for test_readers
+
+build cmake_object_order_depends_target_test_readers: phony || cmake_object_order_depends_target_readers
+
+build tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.ddi: CXX_SCAN__test_readers_Debug /home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp || cmake_object_order_depends_target_test_readers
+  DEP_FILE = tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.ddi
+  FLAGS = -g -std=gnu++23
+  OBJ_FILE = tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o
+  PREPROCESSED_OUTPUT_FILE = tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.ddi.i
+
+build tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o: CXX_COMPILER__test_readers_scanned_Debug /home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp | tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.modmap || cmake_object_order_depends_target_test_readers tests/readers/CMakeFiles/test_readers.dir/CXX.dd
+  CONFIG = Debug
+  DEP_FILE = tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.modmap
+  FLAGS = -g -std=gnu++23
+  OBJECT_DIR = tests/readers/CMakeFiles/test_readers.dir
+  OBJECT_FILE_DIR = tests/readers/CMakeFiles/test_readers.dir
+  dyndep = tests/readers/CMakeFiles/test_readers.dir/CXX.dd
+
+build tests/readers/CMakeFiles/test_readers.dir/CXX.dd | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/test_readers.dir/CXXModules.json tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.modmap: CXX_DYNDEP__test_readers_Debug tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.ddi | /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/test_readers.dir/CXXDependInfo.json
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target test_readers
+
+
+#############################################
+# Link the static library tests/readers/libtest_readers.a
+
+build tests/readers/libtest_readers.a: CXX_STATIC_LIBRARY_LINKER__test_readers_Debug tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o || src/readers/libreaders.a
+  CONFIG = Debug
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = tests/readers/CMakeFiles/test_readers.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = tests/readers/libtest_readers.a
+  TARGET_PDB = test_readers.a.dbg
+
+
+#############################################
+# Utility command for test
+
+build tests/readers/CMakeFiles/test.util: CUSTOM_COMMAND
+  COMMAND = cd /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers && /opt/cmake/bin/ctest
+  DESC = Running tests...
+  pool = console
+  restat = 1
+
+build tests/readers/test: phony tests/readers/CMakeFiles/test.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build tests/readers/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers && /opt/cmake/bin/ccmake -S/home/bwallis/projects/walliscode/hollow-lantern -B/home/bwallis/projects/walliscode/hollow-lantern/build/Debug
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build tests/readers/edit_cache: phony tests/readers/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build tests/readers/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers && /opt/cmake/bin/cmake --regenerate-during-build -S/home/bwallis/projects/walliscode/hollow-lantern -B/home/bwallis/projects/walliscode/hollow-lantern/build/Debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build tests/readers/rebuild_cache: phony tests/readers/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
 # Target aliases.
 
 build Catch2: phony _deps/catch2-build/src/libCatch2d.a
@@ -1439,6 +1595,14 @@ build libCatch2Maind.a: phony _deps/catch2-build/src/libCatch2Maind.a
 build libCatch2d.a: phony _deps/catch2-build/src/libCatch2d.a
 
 build libdirectory_paths.a: phony config/libdirectory_paths.a
+
+build libreaders.a: phony src/readers/libreaders.a
+
+build libtest_readers.a: phony tests/readers/libtest_readers.a
+
+build readers: phony src/readers/libreaders.a
+
+build test_readers: phony tests/readers/libtest_readers.a
 
 # =============================================================================
 # Folder targets.
@@ -1483,14 +1647,21 @@ build hollow-lantern/codegen: phony
 #############################################
 # Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src
 
-build src/codegen: phony
+build src/codegen: phony src/readers/codegen
+
+# =============================================================================
+
+#############################################
+# Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers
+
+build src/readers/codegen: phony
 
 # =============================================================================
 
 #############################################
 # Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests
 
-build tests/codegen: phony tests/hollow-lantern-test/codegen
+build tests/codegen: phony tests/hollow-lantern-test/codegen tests/readers/codegen
 
 # =============================================================================
 
@@ -1498,6 +1669,13 @@ build tests/codegen: phony tests/hollow-lantern-test/codegen
 # Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test
 
 build tests/hollow-lantern-test/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers
+
+build tests/readers/codegen: phony
 
 # =============================================================================
 
@@ -1539,14 +1717,21 @@ build hollow-lantern/all: phony hollow-lantern/hollow-lantern
 #############################################
 # Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src
 
-build src/all: phony
+build src/all: phony src/readers/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers
+
+build src/readers/all: phony src/readers/libreaders.a
 
 # =============================================================================
 
 #############################################
 # Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests
 
-build tests/all: phony tests/hollow-lantern-test/all
+build tests/all: phony tests/hollow-lantern-test/all tests/readers/all
 
 # =============================================================================
 
@@ -1556,20 +1741,27 @@ build tests/all: phony tests/hollow-lantern-test/all
 build tests/hollow-lantern-test/all: phony tests/hollow-lantern-test/hollow-lantern-tests
 
 # =============================================================================
+
+#############################################
+# Folder: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers
+
+build tests/readers/all: phony tests/readers/libtest_readers.a
+
+# =============================================================================
 # Built-in targets
 
 
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/src/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/src/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/CTestTestfile.cmake: RERUN_CMAKE | /home/bwallis/projects/walliscode/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/Catch2.cmake /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/fetch-content-modules.cmake /home/bwallis/projects/walliscode/hollow-lantern/config/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/config/directory_paths.cpp.in /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/src/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/CMakeLists.txt /opt/cmake/share/cmake-4.0/Modules/CMakeCXXInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCommonLanguageInclude.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeDependentOption.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeGenericSystem.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeInitializeConfigs.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeLanguageInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/PatchInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/RepositoryInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/UpdateInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitclone.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitupdate.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/shared_internal_commands.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/stepscript.cmake.in /opt/cmake/share/cmake-4.0/Modules/FetchContent.cmake /opt/cmake/share/cmake-4.0/Modules/FindGit.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageMessage.cmake /opt/cmake/share/cmake-4.0/Modules/GNUInstallDirs.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCXXLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckFlagCommonConfig.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Initialize.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/UnixPaths.cmake /opt/cmake/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.0.2/CMakeCXXCompiler.cmake CMakeFiles/4.0.2/CMakeSystem.cmake _deps/catch2-src/CMake/CatchConfigOptions.cmake _deps/catch2-src/CMake/CatchMiscFunctions.cmake _deps/catch2-src/CMakeLists.txt _deps/catch2-src/src/CMakeLists.txt _deps/catch2-src/src/catch2/catch_user_config.hpp.in
+build build.ninja /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/src/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/cmake_install.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/src/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/CTestTestfile.cmake /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CTestTestfile.cmake: RERUN_CMAKE | /home/bwallis/projects/walliscode/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/Catch2.cmake /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/fetch-content-modules.cmake /home/bwallis/projects/walliscode/hollow-lantern/config/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/config/directory_paths.cpp.in /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/src/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/src/readers/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/readers/CMakeLists.txt /opt/cmake/share/cmake-4.0/Modules/CMakeCXXInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCommonLanguageInclude.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeDependentOption.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeGenericSystem.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeInitializeConfigs.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeLanguageInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/PatchInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/RepositoryInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/UpdateInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitclone.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitupdate.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/shared_internal_commands.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/stepscript.cmake.in /opt/cmake/share/cmake-4.0/Modules/FetchContent.cmake /opt/cmake/share/cmake-4.0/Modules/FindGit.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageMessage.cmake /opt/cmake/share/cmake-4.0/Modules/GNUInstallDirs.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCXXLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckFlagCommonConfig.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Initialize.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/UnixPaths.cmake /opt/cmake/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.0.2/CMakeCXXCompiler.cmake CMakeFiles/4.0.2/CMakeSystem.cmake _deps/catch2-src/CMake/CatchConfigOptions.cmake _deps/catch2-src/CMake/CatchMiscFunctions.cmake _deps/catch2-src/CMakeLists.txt _deps/catch2-src/src/CMakeLists.txt _deps/catch2-src/src/catch2/catch_user_config.hpp.in
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/bwallis/projects/walliscode/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/Catch2.cmake /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/fetch-content-modules.cmake /home/bwallis/projects/walliscode/hollow-lantern/config/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/config/directory_paths.cpp.in /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/src/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/CMakeLists.txt /opt/cmake/share/cmake-4.0/Modules/CMakeCXXInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCommonLanguageInclude.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeDependentOption.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeGenericSystem.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeInitializeConfigs.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeLanguageInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/PatchInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/RepositoryInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/UpdateInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitclone.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitupdate.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/shared_internal_commands.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/stepscript.cmake.in /opt/cmake/share/cmake-4.0/Modules/FetchContent.cmake /opt/cmake/share/cmake-4.0/Modules/FindGit.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageMessage.cmake /opt/cmake/share/cmake-4.0/Modules/GNUInstallDirs.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCXXLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckFlagCommonConfig.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Initialize.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/UnixPaths.cmake /opt/cmake/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.0.2/CMakeCXXCompiler.cmake CMakeFiles/4.0.2/CMakeSystem.cmake _deps/catch2-src/CMake/CatchConfigOptions.cmake _deps/catch2-src/CMake/CatchMiscFunctions.cmake _deps/catch2-src/CMakeLists.txt _deps/catch2-src/src/CMakeLists.txt _deps/catch2-src/src/catch2/catch_user_config.hpp.in: phony
+build /home/bwallis/projects/walliscode/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/Catch2.cmake /home/bwallis/projects/walliscode/hollow-lantern/cmake/fetch-content-modules/fetch-content-modules.cmake /home/bwallis/projects/walliscode/hollow-lantern/config/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/config/directory_paths.cpp.in /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/src/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/src/readers/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/CMakeLists.txt /home/bwallis/projects/walliscode/hollow-lantern/tests/readers/CMakeLists.txt /opt/cmake/share/cmake-4.0/Modules/CMakeCXXInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeCommonLanguageInclude.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeDependentOption.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeGenericSystem.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeInitializeConfigs.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeLanguageInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake /opt/cmake/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/CheckCXXSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/Clang.cmake /opt/cmake/share/cmake-4.0/Modules/Compiler/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/PatchInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/RepositoryInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/UpdateInfo.txt.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitclone.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/gitupdate.cmake.in /opt/cmake/share/cmake-4.0/Modules/ExternalProject/shared_internal_commands.cmake /opt/cmake/share/cmake-4.0/Modules/ExternalProject/stepscript.cmake.in /opt/cmake/share/cmake-4.0/Modules/FetchContent.cmake /opt/cmake/share/cmake-4.0/Modules/FindGit.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake /opt/cmake/share/cmake-4.0/Modules/FindPackageMessage.cmake /opt/cmake/share/cmake-4.0/Modules/GNUInstallDirs.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCXXLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckCompilerFlag.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckFlagCommonConfig.cmake /opt/cmake/share/cmake-4.0/Modules/Internal/CheckSourceCompiles.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linker/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Clang-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU-CXX.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-GNU.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux-Initialize.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/Linux.cmake /opt/cmake/share/cmake-4.0/Modules/Platform/UnixPaths.cmake /opt/cmake/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.0.2/CMakeCXXCompiler.cmake CMakeFiles/4.0.2/CMakeSystem.cmake _deps/catch2-src/CMake/CatchConfigOptions.cmake _deps/catch2-src/CMake/CatchMiscFunctions.cmake _deps/catch2-src/CMakeLists.txt _deps/catch2-src/src/CMakeLists.txt _deps/catch2-src/src/catch2/catch_user_config.hpp.in: phony
 
 
 #############################################
