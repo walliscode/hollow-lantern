@@ -1,0 +1,33 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "Clang",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers",
+	"dir-cur-src" : "/home/bwallis/projects/walliscode/hollow-lantern/tests/readers",
+	"dir-top-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
+	"dir-top-src" : "/home/bwallis/projects/walliscode/hollow-lantern",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/bwallis/projects/walliscode/hollow-lantern/tests/readers",
+		"_deps/catch2-src/src/catch2/..",
+		"_deps/catch2-build/generated-includes",
+		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/test_readers.dir",
+	"sources" : 
+	{
+		"tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp"
+		}
+	}
+}

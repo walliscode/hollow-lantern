@@ -1,0 +1,5 @@
+if(EXISTS "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/hollow-lantern-tests-b12d07c_tests.cmake")
+  include("/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/hollow-lantern-test/hollow-lantern-tests-b12d07c_tests.cmake")
+else()
+  add_test(hollow-lantern-tests_NOT_BUILT-b12d07c hollow-lantern-tests_NOT_BUILT-b12d07c)
+endif()

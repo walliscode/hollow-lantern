@@ -22,11 +22,6 @@
 		{
 			"language" : "CXX",
 			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp"
-		},
-		"hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o" : 
-		{
-			"language" : "CXX",
-			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/quick_class.cpp"
 		}
 	}
 }

@@ -1,5 +1,3 @@
 ninja_dyndep_version = 1.0
 build hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o: dyndep
 
-build hollow-lantern/CMakeFiles/hollow-lantern.dir/quick_class.cpp.o: dyndep
-

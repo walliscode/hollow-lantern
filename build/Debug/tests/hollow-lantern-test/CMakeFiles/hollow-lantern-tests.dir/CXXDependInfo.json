@@ -14,7 +14,6 @@
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : 
 	[
-		"/home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test",
 		"_deps/catch2-src/src/catch2/..",
 		"_deps/catch2-build/generated-includes"
 	],
