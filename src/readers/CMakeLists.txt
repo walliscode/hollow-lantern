@@ -3,6 +3,6 @@ VoxReader.cpp
 )
 
 target_include_directories(readers
-PRIVATE
+PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}
 )

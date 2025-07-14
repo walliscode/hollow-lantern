@@ -1,7 +1,7 @@
 #include "directory_paths.h"
 #include <filesystem>
 
-namespace directory_paths {
+namespace config {
 ////////////////////////////////////////////////////////////
 const std::filesystem::path getDataFolder() { return "/home/bwallis/projects/walliscode/hollow-lantern/data"; };
-} // namespace directory_paths
+} // namespace config

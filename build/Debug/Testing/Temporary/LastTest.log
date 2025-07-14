@@ -1,0 +1,23 @@
+Start testing: Jul 14 09:24 BST
+----------------------------------------------------------
+1/1 Testing: Test directory paths in configuration
+1/1 Test: Test directory paths in configuration
+Command: "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/config/config-tests" "Test directory paths in configuration"
+Directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/config
+"Test directory paths in configuration" start time: Jul 14 09:24 BST
+Output:
+----------------------------------------------------------
+Filters: "Test directory paths in configuration"
+Randomness seeded to: 3278727650
+===============================================================================
+All tests passed (2 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Test directory paths in configuration" end time: Jul 14 09:24 BST
+"Test directory paths in configuration" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 14 09:24 BST

@@ -1,6 +1,6 @@
 #include <filesystem>
 
-namespace directory_paths {
+namespace config {
 
 ////////////////////////////////////////////////////////////
 /// \brief return folder path for data,
@@ -9,4 +9,4 @@ namespace directory_paths {
 ////////////////////////////////////////////////////////////
 const std::filesystem::path getDataFolder();
 
-} // namespace directory_paths
+} // namespace config

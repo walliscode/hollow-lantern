@@ -12,7 +12,13 @@
 	"dir-top-src" : "/home/bwallis/projects/walliscode/hollow-lantern",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
-	"include-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/bwallis/projects/walliscode/hollow-lantern/tests/readers",
+		"_deps/catch2-src/src/catch2/..",
+		"_deps/catch2-build/generated-includes",
+		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers"
+	],
 	"language" : "CXX",
 	"linked-target-dirs" : [],
 	"module-dir" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/test_readers.dir",

@@ -655,14 +655,8 @@
 },
 {
   "directory": "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
-  "command": "/usr/bin/clang++ -I/home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-src/src/catch2/.. -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/generated-includes -g -std=gnu++23 @tests/hollow-lantern-test/CMakeFiles/hollow-lantern-tests.dir/hollow-lantern.test.cpp.o.modmap -o tests/hollow-lantern-test/CMakeFiles/hollow-lantern-tests.dir/hollow-lantern.test.cpp.o -c /home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/hollow-lantern.test.cpp",
-  "file": "/home/bwallis/projects/walliscode/hollow-lantern/tests/hollow-lantern-test/hollow-lantern.test.cpp",
-  "output": "tests/hollow-lantern-test/CMakeFiles/hollow-lantern-tests.dir/hollow-lantern.test.cpp.o"
-},
-{
-  "directory": "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
-  "command": "/usr/bin/clang++ -g -std=gnu++23 @tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o.modmap -o tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o -c /home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp",
-  "file": "/home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp",
-  "output": "tests/readers/CMakeFiles/test_readers.dir/VoxReader.test.cpp.o"
+  "command": "/usr/bin/clang++ -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-src/src/catch2/.. -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/catch2-build/generated-includes -I/home/bwallis/projects/walliscode/hollow-lantern/config -g -std=gnu++23 @tests/config/CMakeFiles/config-tests.dir/directory_paths.test.cpp.o.modmap -o tests/config/CMakeFiles/config-tests.dir/directory_paths.test.cpp.o -c /home/bwallis/projects/walliscode/hollow-lantern/tests/config/directory_paths.test.cpp",
+  "file": "/home/bwallis/projects/walliscode/hollow-lantern/tests/config/directory_paths.test.cpp",
+  "output": "tests/config/CMakeFiles/config-tests.dir/directory_paths.test.cpp.o"
 }
 ]
