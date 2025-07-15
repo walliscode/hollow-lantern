@@ -1,3 +1,4 @@
-Test directory paths in configuration 60 2.30765e-05
-VoxReader provides VoxData object 15 0.000459149
+Test directory paths in configuration 78 1.7495e-05
+VoxReader provides VoxData object 33 0.00014879
+VoxManipulator provides VoxData object 6 0.00828061
 ---

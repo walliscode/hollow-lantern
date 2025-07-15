@@ -113,6 +113,14 @@
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/install.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/install/local.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/install/strip.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/manipulators.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/test.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/edit_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/rebuild_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/list_install_components.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/install.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/install/local.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/manipulators/CMakeFiles/install/strip.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/test.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/edit_cache.dir
@@ -172,3 +180,11 @@
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/install.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/install/local.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/CMakeFiles/install/strip.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/test_manipulators.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/test.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/edit_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/rebuild_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/list_install_components.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/install.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/install/local.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/manipulators/CMakeFiles/install/strip.dir
