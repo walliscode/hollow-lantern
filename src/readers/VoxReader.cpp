@@ -183,6 +183,7 @@ void VoxReader::ExtractVoxels(std::ifstream &file, VoxData &vox_data) const {
 
   file.seekg(8, std::ios::beg);
 
+  // Find MAIN chunk
   char chunk_ID[4];
   while (file.read(chunk_ID, 4)) {
     uint32_t chunk_size = ReadU32(file);
@@ -205,13 +206,27 @@ void VoxReader::ExtractVoxels(std::ifstream &file, VoxData &vox_data) const {
       file.seekg(chunk_size + child_chunks, std::ios::cur);
     }
   }
+  // Now find MAIN chunk
 
-  // Now find XYZI chunk
   file.clear();
   file.seekg(8, std::ios::beg);
   while (file.read(chunk_ID, 4)) {
     uint32_t chunk_size = ReadU32(file);
     uint32_t child_chunks = ReadU32(file);
+    if (std::strncmp(chunk_ID, "MAIN", 4) == 0) {
+      std::cout << "Found MAIN chunk." << std::endl;
+      break; // After MAIN, go back to chunk scan for XYZI
+    } else {
+      file.seekg(chunk_size + child_chunks, std::ios::cur);
+    }
+  }
+
+  // Now MAIN: readl all children
+  while (file.read(chunk_ID, 4)) {
+    uint32_t chunk_size = ReadU32(file);
+    uint32_t child_chunks = ReadU32(file);
+    std::streampos next_chunk = file.tellg();
+    next_chunk += chunk_size;
 
     if (std::strncmp(chunk_ID, "XYZI", 4) == 0) {
       uint32_t num_voxels = ReadU32(file);
@@ -234,7 +249,7 @@ void VoxReader::ExtractVoxels(std::ifstream &file, VoxData &vox_data) const {
       }
       break;
     } else {
-      file.seekg(chunk_size + child_chunks, std::ios::cur);
+      file.seekg(next_chunk);
     }
   }
 }
