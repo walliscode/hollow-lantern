@@ -14,7 +14,10 @@
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : 
 	[
-		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers"
+		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers",
+		"/home/bwallis/projects/walliscode/hollow-lantern/config",
+		"_deps/glm-src",
+		"_deps/sfml-src/include"
 	],
 	"language" : "CXX",
 	"linked-target-dirs" : [],

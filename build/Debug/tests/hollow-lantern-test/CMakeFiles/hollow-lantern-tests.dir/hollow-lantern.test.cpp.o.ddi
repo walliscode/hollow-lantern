@@ -1,9 +1,0 @@
-{
-  "revision": 0,
-  "rules": [
-    {
-      "primary-output": "tests/hollow-lantern-test/CMakeFiles/hollow-lantern-tests.dir/hollow-lantern.test.cpp.o"
-    }
-  ],
-  "version": 1
-}

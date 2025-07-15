@@ -1,4 +1,3 @@
-Main Function Test 2 0.00181871
-testTest 1 0.00108727
-Test directory paths in configuration 4 0.000364491
+Test directory paths in configuration 60 2.30765e-05
+VoxReader provides VoxData object 15 0.000459149
 ---

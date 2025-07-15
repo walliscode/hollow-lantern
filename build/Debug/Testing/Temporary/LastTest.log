@@ -1,23 +1,52 @@
-Start testing: Jul 14 09:24 BST
+Start testing: Jul 15 15:26 BST
 ----------------------------------------------------------
-1/1 Testing: Test directory paths in configuration
-1/1 Test: Test directory paths in configuration
+1/2 Testing: Test directory paths in configuration
+1/2 Test: Test directory paths in configuration
 Command: "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/config/config-tests" "Test directory paths in configuration"
 Directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/config
-"Test directory paths in configuration" start time: Jul 14 09:24 BST
+"Test directory paths in configuration" start time: Jul 15 15:26 BST
 Output:
 ----------------------------------------------------------
 Filters: "Test directory paths in configuration"
-Randomness seeded to: 3278727650
+Randomness seeded to: 1139236055
 ===============================================================================
-All tests passed (2 assertions in 1 test case)
+All tests passed (6 assertions in 1 test case)
 
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Test directory paths in configuration" end time: Jul 14 09:24 BST
+"Test directory paths in configuration" end time: Jul 15 15:26 BST
 "Test directory paths in configuration" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jul 14 09:24 BST
+2/2 Testing: VoxReader provides VoxData object
+2/2 Test: VoxReader provides VoxData object
+Command: "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/test_readers" "VoxReader provides VoxData object"
+Directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers
+"VoxReader provides VoxData object" start time: Jul 15 15:26 BST
+Output:
+----------------------------------------------------------
+Filters: "VoxReader provides VoxData object"
+Randomness seeded to: 771441600
+File size (filesystem): 0 bytes.
+Header: 
+File size (filesystem): 5 bytes.
+Header: VOX 
+File size (filesystem): 2688 bytes.
+Header: VOX 
+Found MAIN chunk.
+Found XYZI chunk with 398 voxels.
+VoxData voxels size: 398
+===============================================================================
+All tests passed (2795 assertions in 1 test case)
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VoxReader provides VoxData object" end time: Jul 15 15:26 BST
+"VoxReader provides VoxData object" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 15 15:26 BST
