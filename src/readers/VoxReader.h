@@ -36,6 +36,11 @@ struct VoxData {
   /// @brief Each pair contains a voxel position and its color
   /////////////////////////////////////////////////
   std::vector<std::pair<glm::vec3, sf::Color>> voxels;
+
+  /////////////////////////////////////////////////
+  /// @brief Hollowed out version ofthe voxels member
+  /////////////////////////////////////////////////
+  std::vector<std::pair<glm::vec3, sf::Color>> hollow_voxels;
 };
 
 class VoxReader {
