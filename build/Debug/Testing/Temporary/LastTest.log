@@ -1,23 +1,110 @@
-Start testing: Jul 14 09:24 BST
+Start testing: Jul 15 11:11 BST
 ----------------------------------------------------------
-1/1 Testing: Test directory paths in configuration
-1/1 Test: Test directory paths in configuration
+1/2 Testing: Test directory paths in configuration
+1/2 Test: Test directory paths in configuration
 Command: "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/config/config-tests" "Test directory paths in configuration"
 Directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/config
-"Test directory paths in configuration" start time: Jul 14 09:24 BST
+"Test directory paths in configuration" start time: Jul 15 11:11 BST
 Output:
 ----------------------------------------------------------
 Filters: "Test directory paths in configuration"
-Randomness seeded to: 3278727650
+Randomness seeded to: 402214026
 ===============================================================================
-All tests passed (2 assertions in 1 test case)
+All tests passed (6 assertions in 1 test case)
 
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"Test directory paths in configuration" end time: Jul 14 09:24 BST
+"Test directory paths in configuration" end time: Jul 15 11:11 BST
 "Test directory paths in configuration" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jul 14 09:24 BST
+2/2 Testing: VoxReader provides VoxData object
+2/2 Test: VoxReader provides VoxData object
+Command: "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers/test_readers" "VoxReader provides VoxData object"
+Directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/tests/readers
+"VoxReader provides VoxData object" start time: Jul 15 11:11 BST
+Output:
+----------------------------------------------------------
+Filters: "VoxReader provides VoxData object"
+Randomness seeded to: 2717520543
+
+==============================
+   [VOX DEBUG] File Check
+==============================
+  File path: "/home/bwallis/projects/walliscode/hollow-lantern/data/test_data/vox/chr_knight.vox"
+  File size: 2688 bytes.
+------------------------------
+  [CheckVoxFileExists] File exists.
+
+==============================
+   [VOX DEBUG] Check Header
+==============================
+  [CheckVoxHeader] File header: "VOX "
+------------------------------
+
+==============================
+   [VOX DEBUG] Check MAIN Chunk
+==============================
+  [CheckMainChunk] Chunk ID: "MAIN"
+    [ReadU32] Value: 0x00000000 (0)
+    [ReadU32] Value: 0x00000a6c (2668)
+    [CheckMainChunk] Found MAIN chunk!
+------------------------------
+
+==============================
+   [VOX DEBUG] Check PACK Chunk
+==============================
+  [CheckPackChunk] Chunk ID: "MAIN"
+    [ReadU32] Value: 0x00000000 (0)
+    [ReadU32] Value: 0x00000a6c (2668)
+    [CheckPackChunk] No PACK chunk found.
+------------------------------
+
+==============================
+   [VOX DEBUG] Extract Voxels
+==============================
+  [ExtractVoxels] Chunk ID: "MAIN"
+    [ReadU32] Value: 0x00000000 (0)
+    [ReadU32] Value: 0x00000a6c (2668)
+    [ExtractVoxels] No RGBA chunk found, using default palette.
+  [ExtractVoxels] Chunk ID: "MAIN"
+    [ReadU32] Value: 0x00000000 (0)
+    [ReadU32] Value: 0x00000a6c (2668)
+------------------------------
+
+==============================
+   [VOX DEBUG] Summary
+==============================
+  VoxData voxels loaded: 0
+------------------------------
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_readers is a Catch2 v3.8.1 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+VoxReader provides VoxData object
+-------------------------------------------------------------------------------
+/home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp:13
+...............................................................................
+
+/home/bwallis/projects/walliscode/hollow-lantern/tests/readers/VoxReader.test.cpp:21: FAILED:
+  REQUIRE( result->voxels.size() == 332 )
+with expansion:
+  0 == 332 (0x14c)
+
+===============================================================================
+test cases: 1 | 1 failed
+assertions: 3 | 2 passed | 1 failed
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Failed.
+"VoxReader provides VoxData object" end time: Jul 15 11:11 BST
+"VoxReader provides VoxData object" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 15 11:11 BST

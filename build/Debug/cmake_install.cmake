@@ -49,6 +49,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/glm-build/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/cmake_install.cmake")
 endif()
 

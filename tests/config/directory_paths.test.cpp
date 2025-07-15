@@ -14,4 +14,8 @@ TEST_CASE("Test directory paths in configuration",
 
   REQUIRE(config::getDataFolder().string() != "");
   REQUIRE(config::getDataFolder().string() != "@data_path@");
+  REQUIRE(config::getSchemaFolder().string() != "");
+  REQUIRE(config::getSchemaFolder().string() != "@data_path@/schema");
+  REQUIRE(config::getTestDataFolder().string() != "");
+  REQUIRE(config::getTestDataFolder().string() != "@data_path@/test_data");
 }
