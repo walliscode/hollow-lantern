@@ -1267,7 +1267,7 @@
 },
 {
   "directory": "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
-  "command": "/usr/bin/clang++ -g -std=gnu++23 @hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.modmap -o hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o -c /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp",
+  "command": "/usr/bin/clang++ -DSFML_STATIC -I/home/bwallis/projects/walliscode/hollow-lantern/src/readers -I/home/bwallis/projects/walliscode/hollow-lantern/config -I/home/bwallis/projects/walliscode/hollow-lantern/src/structures -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/glm-src -I/home/bwallis/projects/walliscode/hollow-lantern/src/manipulators -isystem /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-src/include -g -std=gnu++23 @hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.modmap -o hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o -c /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp",
   "file": "/home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp",
   "output": "hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o"
 },
