@@ -1,5 +1,6 @@
 add_library(manipulators
   VoxManipulator.cpp
+  Projector.cpp
 )
 
 target_include_directories(manipulators

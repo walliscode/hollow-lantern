@@ -61,7 +61,7 @@ static const uint32_t default_palette[256] = {
     0xff555555, 0xff444444, 0xff222222, 0xff111111};
 
 /////////////////////////////////////////////////
-std::expected<VoxData, std::string>
+std::expected<ModelData, std::string>
 VoxReader::ProvideVoxData(std::string model_name, bool testing) {
   // create path to the model file
   std::filesystem::path model_path;
@@ -105,7 +105,7 @@ VoxReader::ProvideVoxData(std::string model_name, bool testing) {
                model_name));
   }
 
-  VoxData vox_data;
+  ModelData vox_data;
   vox_data.name = model_name;
   {
     std::ifstream file(model_path, std::ios::binary);
@@ -175,7 +175,7 @@ bool VoxReader::CheckMainChunk(std::ifstream &file) const {
 }
 
 /////////////////////////////////////////////////
-void VoxReader::ExtractVoxels(std::ifstream &file, VoxData &vox_data) const {
+void VoxReader::ExtractVoxels(std::ifstream &file, ModelData &vox_data) const {
   // Start with default palette
   uint32_t palette[256];
   std::memcpy(palette, default_palette, sizeof(palette));
@@ -227,8 +227,17 @@ void VoxReader::ExtractVoxels(std::ifstream &file, VoxData &vox_data) const {
     uint32_t child_chunks = ReadU32(file);
     std::streampos next_chunk = file.tellg();
     next_chunk += chunk_size;
+    // add in size of the model
+    if (std::strncmp(chunk_ID, "SIZE", 4) == 0) {
+      uint32_t x = ReadU32(file);
+      uint32_t y = ReadU32(file);
+      uint32_t z = ReadU32(file);
+      vox_data.model_size = glm::vec3(
+          static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+      std::cout << "Found SIZE chunk: " << x << "x" << y << "x" << z
+                << std::endl;
 
-    if (std::strncmp(chunk_ID, "XYZI", 4) == 0) {
+    } else if (std::strncmp(chunk_ID, "XYZI", 4) == 0) {
       uint32_t num_voxels = ReadU32(file);
       std::cout << "Found XYZI chunk with " << num_voxels << " voxels."
                 << std::endl;

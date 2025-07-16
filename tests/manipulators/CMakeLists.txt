@@ -1,5 +1,6 @@
 add_executable(test_manipulators
 VoxManipulator.test.cpp
+Projector.test.cpp
 )
 
 target_link_libraries(test_manipulators

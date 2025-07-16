@@ -26,7 +26,7 @@ public:
   ///
   /// @param vox_data VoxData object to be manipulated.
   /////////////////////////////////////////////////
-  void HollowOut(VoxData &vox_data);
+  void HollowOut(ModelData &vox_data);
 };
 
 } // namespace hollow_lantern

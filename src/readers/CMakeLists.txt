@@ -5,11 +5,13 @@ VoxReader.cpp
 target_include_directories(readers
 PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}
+
 )
 
 target_link_libraries(readers
 PUBLIC
 directory_paths
+structures
 glm
 SFML::Graphics
 )

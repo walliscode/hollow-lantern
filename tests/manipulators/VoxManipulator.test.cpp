@@ -25,7 +25,7 @@ TEST_CASE("VoxManipulator provides VoxData object", "[VoxManipulator]") {
   REQUIRE(result->name == "simple_cube");
 
   // cast to VoxData
-  hollow_lantern::VoxData vox_data = result.value();
+  hollow_lantern::ModelData vox_data = result.value();
   REQUIRE(vox_data.voxels.size() == 1000);
 
   // create a VoxManipulator object
@@ -65,9 +65,10 @@ TEST_CASE("VoxManipulator provides VoxData object", "[VoxManipulator]") {
     auto it = std::find_if(
         vox_data.hollow_voxels.begin(), vox_data.hollow_voxels.end(),
         [&expected_position](const auto &voxel) {
-          std::cout << "Checking voxel at position: " << voxel.first.x << ", "
-                    << voxel.first.y << ", " << voxel.first.z << std::endl;
-          return voxel.first == expected_position;
+          std::cout << "Checking voxel at position: " << voxel.position.x
+                    << ", " << voxel.position.y << ", " << voxel.position.z
+                    << std::endl;
+          return voxel.position == expected_position;
         });
     REQUIRE(it != vox_data.hollow_voxels.end());
   }
@@ -80,7 +81,8 @@ TEST_CASE("VoxManipulator provides VoxData object", "[VoxManipulator]") {
   REQUIRE(complex_shape_result->name == "complex_shape_1");
 
   // cast to VoxData
-  hollow_lantern::VoxData complex_shape_vox_data = complex_shape_result.value();
+  hollow_lantern::ModelData complex_shape_vox_data =
+      complex_shape_result.value();
   REQUIRE(complex_shape_vox_data.voxels.size() == 940);
   // hollow out the complex shape VoxData
   manipulator.HollowOut(complex_shape_vox_data);

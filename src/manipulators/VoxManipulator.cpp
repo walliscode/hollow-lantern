@@ -10,7 +10,7 @@
 
 namespace hollow_lantern {
 /////////////////////////////////////////////////
-void VoxManipulator::HollowOut(VoxData &vox_data) {
+void VoxManipulator::HollowOut(ModelData &vox_data) {
 
   // create vector of 6 possible neighbour offsets in glm::vec3
   const std::vector<glm::vec3> relative_neighbour_offsets = {
@@ -23,7 +23,7 @@ void VoxManipulator::HollowOut(VoxData &vox_data) {
     // create absolute neighbour offsets
     std::vector<glm::vec3> absolute_neighbour_offsets;
     for (const auto &offset : relative_neighbour_offsets) {
-      absolute_neighbour_offsets.push_back(voxel.first + offset);
+      absolute_neighbour_offsets.push_back(voxel.position + offset);
     };
 
     // cycle though the absolute neighbour offsets and see if any voxels match
@@ -31,7 +31,7 @@ void VoxManipulator::HollowOut(VoxData &vox_data) {
       // check if the neighbour exists in the voxels vector
       if (std::find_if(vox_data.voxels.begin(), vox_data.voxels.end(),
                        [&neighbour](const auto &v) {
-                         return v.first == neighbour;
+                         return v.position == neighbour;
                        }) != vox_data.voxels.end()) {
         neighbour_count++;
       }

@@ -16,6 +16,7 @@
 	[
 		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers",
 		"/home/bwallis/projects/walliscode/hollow-lantern/config",
+		"/home/bwallis/projects/walliscode/hollow-lantern/src/structures",
 		"_deps/glm-src",
 		"_deps/sfml-src/include"
 	],
