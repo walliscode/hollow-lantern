@@ -42,12 +42,12 @@ TEST_CASE("VoxReader provides VoxData object", "[VoxReader]") {
   REQUIRE(result->voxels.size() > 0);
   // Check if the voxels have valid positions and colors
   for (const auto &voxel : result->voxels) {
-    REQUIRE(voxel.first.x >= 0);
-    REQUIRE(voxel.first.y >= 0);
-    REQUIRE(voxel.first.z >= 0);
-    REQUIRE(((voxel.second.r >= 0) && (voxel.second.r <= 255)));
-    REQUIRE(((voxel.second.g >= 0) && (voxel.second.g <= 255)));
-    REQUIRE(((voxel.second.b >= 0) && (voxel.second.b <= 255)));
-    REQUIRE(((voxel.second.a >= 0) && (voxel.second.a <= 255)));
+    REQUIRE(voxel.position.x >= 0);
+    REQUIRE(voxel.position.y >= 0);
+    REQUIRE(voxel.position.z >= 0);
+    REQUIRE(((voxel.color.r >= 0) && (voxel.color.r <= 255)));
+    REQUIRE(((voxel.color.g >= 0) && (voxel.color.g <= 255)));
+    REQUIRE(((voxel.color.b >= 0) && (voxel.color.b <= 255)));
+    REQUIRE(((voxel.color.a >= 0) && (voxel.color.a <= 255)));
   }
 }

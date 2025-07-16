@@ -17,31 +17,10 @@
 #include <filesystem>
 #include <glm/vec3.hpp>
 #include <string>
-#include <utility>
-#include <vector>
+
+#include "ModelData.h"
+
 namespace hollow_lantern {
-
-/////////////////////////////////////////////////
-/// @class VoxData
-/// @brief Struct to hold data from a Vox file
-///
-/////////////////////////////////////////////////
-struct VoxData {
-  /////////////////////////////////////////////////
-  /// @brief Name of the Vox model, taken from the filename
-  /////////////////////////////////////////////////
-  std::string name{"no_name"};
-
-  /////////////////////////////////////////////////
-  /// @brief Each pair contains a voxel position and its color
-  /////////////////////////////////////////////////
-  std::vector<std::pair<glm::vec3, sf::Color>> voxels;
-
-  /////////////////////////////////////////////////
-  /// @brief Hollowed out version ofthe voxels member
-  /////////////////////////////////////////////////
-  std::vector<std::pair<glm::vec3, sf::Color>> hollow_voxels;
-};
 
 class VoxReader {
 private:
@@ -98,7 +77,7 @@ private:
   /// @param file Vox stream to read from
   /// @param vox_data VoxData object to fill with extracted data
   /////////////////////////////////////////////////
-  void ExtractVoxels(std::ifstream &file, VoxData &vox_data) const;
+  void ExtractVoxels(std::ifstream &file, ModelData &vox_data) const;
 
 public:
   /////////////////////////////////////////////////
@@ -111,8 +90,8 @@ public:
   ///
   /// @return A VoxData object or bool indicating failure
   /////////////////////////////////////////////////
-  std::expected<VoxData, std::string> ProvideVoxData(std::string model_name,
-                                                     bool testing = false);
+  std::expected<ModelData, std::string> ProvideVoxData(std::string model_name,
+                                                       bool testing = false);
 };
 
 } // namespace hollow_lantern
