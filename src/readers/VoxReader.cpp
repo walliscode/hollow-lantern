@@ -242,9 +242,9 @@ void VoxReader::ExtractVoxels(std::ifstream &file, ModelData &vox_data) const {
       std::cout << "Found XYZI chunk with " << num_voxels << " voxels."
                 << std::endl;
       for (uint32_t i = 0; i < num_voxels; ++i) {
-        uint8_t x = ReadU8(file);
-        uint8_t y = ReadU8(file);
-        uint8_t z = ReadU8(file);
+        float x = ReadU8(file);
+        float y = ReadU8(file);
+        float z = ReadU8(file);
         uint8_t color_index = ReadU8(file);
         if (color_index > 255)
           color_index = 0; // Clamp

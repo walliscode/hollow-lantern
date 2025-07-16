@@ -15,6 +15,11 @@
 #include <unordered_set>
 
 namespace hollow_lantern {
+glm::vec3 quantize(const glm::vec3 &pos, float grid_size) {
+  return glm::vec3(std::round(pos.x / grid_size) * grid_size,
+                   std::round(pos.y / grid_size) * grid_size,
+                   std::round(pos.z / grid_size) * grid_size);
+}
 /////////////////////////////////////////////////
 void Projector::ProjectOntoPlanes(ModelData &model_data,
                                   const size_t rotation_intervals,
@@ -85,8 +90,19 @@ void Projector::ProjectOntoPlanes(ModelData &model_data,
       // apply the model matrix to each voxel
       glm::vec4 transformed_position =
           model_matrix * glm::vec4(voxel.position, 1.0f);
+
+      // Snap to grid!
+      glm::vec3 snapped_position =
+          quantize(glm::vec3(transformed_position), 0.1f);
+
+      // print out transformed to snapped position
+      std::cout << "[DEBUG] Transformed voxel at (" << transformed_position.x
+                << ", " << transformed_position.y << ", "
+                << transformed_position.z << ") to snapped position ("
+                << snapped_position.x << ", " << snapped_position.y << ", "
+                << snapped_position.z << ").\n";
       rotated_data.emplace_back(
-          Voxel{glm::vec3(transformed_position), voxel.color});
+          Voxel{glm::vec3(snapped_position), voxel.color});
     }
     std::cout << "[DEBUG] Rotated all voxels for this interval. Total: "
               << rotated_data.size() << ".\n";
@@ -106,7 +122,7 @@ void Projector::CullUsingRayCasting(std::vector<Voxel> &rotated_data,
 
   int rays_cast = 0;
   int voxels_kept = 0;
-
+  size_t interactions = 0;
   for (float x = 0.0f; x < model_data.model_size.x; x += ray_resolution) {
     for (float y = 0.0f; y < model_data.model_size.y; y += ray_resolution) {
       for (float z = model_data.model_size.z; z >= 0.0f; z -= ray_resolution) {
@@ -114,6 +130,7 @@ void Projector::CullUsingRayCasting(std::vector<Voxel> &rotated_data,
         ++rays_cast;
         bool hit_voxel = false;
         for (const auto &voxel : rotated_data) {
+          interactions++;
           if (glm::distance(ray_start, voxel.position) < ray_resolution) {
             if (kept_voxels.find(voxel) == kept_voxels.end()) {
               ++voxels_kept;
@@ -135,7 +152,12 @@ void Projector::CullUsingRayCasting(std::vector<Voxel> &rotated_data,
 
   std::cout << "[DEBUG] Ray casting complete. Rays cast: " << rays_cast
             << ". Voxels kept: " << voxels_kept << ".\n";
-
+  // print out the kept voxels
+  std::cout << "[DEBUG] Kept voxels:\n";
+  for (const auto &voxel : kept_voxels) {
+    std::cout << "Voxel at (" << voxel.position.x << ", " << voxel.position.y
+              << ", " << voxel.position.z << std::endl;
+  }
   // convert to a sf::VertexArray of points
   sf::VertexArray points(sf::PrimitiveType::Points);
   for (const auto &voxel : kept_voxels) {
@@ -146,5 +168,13 @@ void Projector::CullUsingRayCasting(std::vector<Voxel> &rotated_data,
       << "[DEBUG] Converted kept voxels to sf::VertexArray. Vertex count: "
       << points.getVertexCount() << ".\n";
   model_data.projected_data.push_back(points);
+
+  // print out model size
+  std::cout << "[DEBUG] Model size: (" << model_data.model_size.x << ", "
+            << model_data.model_size.y << ", " << model_data.model_size.z
+            << ").\n";
+
+  // print out interactions
+  std::cout << "[DEBUG] Total interactions: " << interactions << ".\n";
 }
 } // namespace hollow_lantern
