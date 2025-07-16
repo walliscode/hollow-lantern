@@ -3,7 +3,10 @@ add_executable(hollow-lantern
 
 )
 
-target_link_directories(hollow-lantern
+target_link_libraries(hollow-lantern
   PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}
+  SFML::Graphics
+  readers
+  manipulators
 )
+

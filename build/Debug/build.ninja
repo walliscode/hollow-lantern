@@ -3584,20 +3584,24 @@ build src/structures/install/strip: phony src/structures/CMakeFiles/install/stri
 #############################################
 # Order-only phony target for hollow-lantern
 
-build cmake_object_order_depends_target_hollow-lantern: phony || .
+build cmake_object_order_depends_target_hollow-lantern: phony || cmake_object_order_depends_target_Catch2 cmake_object_order_depends_target_Catch2WithMain cmake_object_order_depends_target_directory_paths cmake_object_order_depends_target_glm cmake_object_order_depends_target_manipulators cmake_object_order_depends_target_readers cmake_object_order_depends_target_sfml-graphics cmake_object_order_depends_target_sfml-system cmake_object_order_depends_target_sfml-window
 
 build hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.ddi: CXX_SCAN__hollow-lantern_Debug /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp || cmake_object_order_depends_target_hollow-lantern
+  DEFINES = -DSFML_STATIC
   DEP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.ddi
   FLAGS = -g -std=gnu++23
+  INCLUDES = -I/home/bwallis/projects/walliscode/hollow-lantern/src/readers -I/home/bwallis/projects/walliscode/hollow-lantern/config -I/home/bwallis/projects/walliscode/hollow-lantern/src/structures -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/glm-src -I/home/bwallis/projects/walliscode/hollow-lantern/src/manipulators -isystem /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-src/include
   OBJ_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o
   PREPROCESSED_OUTPUT_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.ddi.i
 
 build hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o: CXX_COMPILER__hollow-lantern_scanned_Debug /home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp | hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.modmap || cmake_object_order_depends_target_hollow-lantern hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd
   CONFIG = Debug
+  DEFINES = -DSFML_STATIC
   DEP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o.modmap
   FLAGS = -g -std=gnu++23
+  INCLUDES = -I/home/bwallis/projects/walliscode/hollow-lantern/src/readers -I/home/bwallis/projects/walliscode/hollow-lantern/config -I/home/bwallis/projects/walliscode/hollow-lantern/src/structures -I/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/glm-src -I/home/bwallis/projects/walliscode/hollow-lantern/src/manipulators -isystem /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-src/include
   OBJECT_DIR = hollow-lantern/CMakeFiles/hollow-lantern.dir
   OBJECT_FILE_DIR = hollow-lantern/CMakeFiles/hollow-lantern.dir
   dyndep = hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd
@@ -3612,12 +3616,12 @@ build hollow-lantern/CMakeFiles/hollow-lantern.dir/CXX.dd | /home/bwallis/projec
 #############################################
 # Link the executable hollow-lantern/hollow-lantern
 
-build hollow-lantern/hollow-lantern: CXX_EXECUTABLE_LINKER__hollow-lantern_Debug hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o
+build hollow-lantern/hollow-lantern: CXX_EXECUTABLE_LINKER__hollow-lantern_Debug hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o | _deps/sfml-build/lib/libsfml-graphics-s-d.a src/readers/libreaders.a src/manipulators/libmanipulators.a src/readers/libreaders.a _deps/sfml-build/lib/libsfml-graphics-s-d.a _deps/sfml-build/lib/libsfml-window-s-d.a /usr/lib/libXrandr.so /usr/lib/libXcursor.so /usr/lib/libXrender.so /usr/lib/libXfixes.so /usr/lib/libXi.so /usr/lib/libXext.so /usr/lib/libX11.so _deps/sfml-build/lib/libsfml-system-s-d.a /usr/lib/libGL.so /usr/lib/libudev.so /usr/lib/libfreetype.so config/libdirectory_paths.a _deps/glm-build/glm/libglm.a _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a || _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a _deps/glm-build/glm/libglm.a _deps/sfml-build/lib/libsfml-graphics-s-d.a _deps/sfml-build/lib/libsfml-system-s-d.a _deps/sfml-build/lib/libsfml-window-s-d.a config/libdirectory_paths.a src/manipulators/libmanipulators.a src/readers/libreaders.a
   CONFIG = Debug
   DEP_FILE = hollow-lantern/CMakeFiles/hollow-lantern.dir/link.d
   FLAGS = -g
   LINK_FLAGS = -Xlinker --dependency-file=hollow-lantern/CMakeFiles/hollow-lantern.dir/link.d
-  LINK_PATH = -L/home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern
+  LINK_LIBRARIES = _deps/sfml-build/lib/libsfml-graphics-s-d.a  src/readers/libreaders.a  src/manipulators/libmanipulators.a  src/readers/libreaders.a  _deps/sfml-build/lib/libsfml-graphics-s-d.a  _deps/sfml-build/lib/libsfml-window-s-d.a  /usr/lib/libXrandr.so  /usr/lib/libXcursor.so  /usr/lib/libXrender.so  /usr/lib/libXfixes.so  /usr/lib/libXi.so  /usr/lib/libXext.so  /usr/lib/libX11.so  _deps/sfml-build/lib/libsfml-system-s-d.a  -lrt  /usr/lib/libGL.so  /usr/lib/libudev.so  -ldl  /usr/lib/libfreetype.so  config/libdirectory_paths.a  _deps/glm-build/glm/libglm.a  _deps/catch2-build/src/libCatch2Maind.a  _deps/catch2-build/src/libCatch2d.a
   OBJECT_DIR = hollow-lantern/CMakeFiles/hollow-lantern.dir
   POST_BUILD = :
   PRE_LINK = :
