@@ -13,4 +13,6 @@ target_link_libraries(manipulators
 PRIVATE
   Catch2::Catch2WithMain
   readers
+  structures
+
 )

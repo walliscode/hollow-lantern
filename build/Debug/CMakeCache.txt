@@ -14,8 +14,20 @@
 # EXTERNAL cache entries
 ########################
 
+//Build the doxygen documentation
+BUILD_DOC:BOOL=OFF
+
 //Build the testing tree.
 BUILD_TESTING:BOOL=ON
+
+//Activate the debug messages of the script FindBoost
+Boost_DEBUG:BOOL=OFF
+
+//The directory containing a CMake configuration file for Boost.
+Boost_DIR:PATH=/usr/lib/cmake/Boost-1.88.0
+
+//Path to a file.
+Boost_INCLUDE_DIR:PATH=/usr/include
 
 //Read docs/configuration.md for details
 CATCH_CONFIG_ANDROID_LOGWRITE:BOOL=OFF
@@ -189,6 +201,83 @@ CATCH_INSTALL_DOCS:BOOL=ON
 
 //Install extras (CMake scripts, debugger helpers) alongside library
 CATCH_INSTALL_EXTRAS:BOOL=ON
+
+//Value Computed by CMake
+CGAL_BINARY_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-build
+
+//Link with static Boost libraries
+CGAL_Boost_USE_STATIC_LIBS:BOOL=OFF
+
+//Setting for advanced users that what to change the default number
+// types used in filtered kernels. Some options might not be working
+// depending on how you configured your build.
+CGAL_CMAKE_EXACT_NT_BACKEND:STRING=Default
+
+//Script cgal_create_cmake_script, that creates CMakeLists.txt
+// files
+CGAL_CREATE_CMAKE_SCRIPT:FILEPATH=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src/Scripts/scripts/cgal_create_cmake_script
+
+//Display memory and real time usage at end of CTest test outputs
+CGAL_CTEST_DISPLAY_MEM_AND_TIME:BOOL=OFF
+
+//Activate the CGAL developers mode. See https://github.com/CGAL/cgal/wiki/CGAL_DEV_MODE
+CGAL_DEV_MODE:BOOL=OFF
+
+//The directory containing a CMake configuration file for CGAL.
+CGAL_DIR:PATH=/usr/lib/cmake/CGAL
+
+//Disable the support of boost multiprecision library
+CGAL_DO_NOT_USE_BOOST_MP:BOOL=OFF
+
+//Enable the special targets "check_pkg_headers", "packages_dependencies",
+// and "check_pkg_<package>_headers" and "pkg_<package>_deps" for
+// each package
+CGAL_ENABLE_CHECK_HEADERS:BOOL=OFF
+
+//Build the testing tree.
+CGAL_ENABLE_TESTING:BOOL=ON
+
+//The folder where CGAL user-side scripts will be installed, relative
+// to CMAKE_INSTALL_PREFIX
+CGAL_INSTALL_BIN_DIR:STRING=bin
+
+//The folder where CGAL CMake modules will be installed, relative
+// to CMAKE_INSTALL_PREFIX
+CGAL_INSTALL_CMAKE_DIR:STRING=lib/cmake/CGAL
+
+//The folder where CGAL documentation and license files will be
+// installed, relative to CMAKE_INSTALL_PREFIX
+CGAL_INSTALL_DOC_DIR:STRING=share/doc/CGAL
+
+//The folder where CGAL header files will be installed, relative
+// to CMAKE_INSTALL_PREFIX
+CGAL_INSTALL_INC_DIR:STRING=include
+
+//The folder where CGAL libraries will be installed, relative to
+// CMAKE_INSTALL_PREFIX
+CGAL_INSTALL_LIB_DIR:STRING=lib
+
+//The folder where manual pages for CGAL scripts will be installed,
+// relative to CMAKE_INSTALL_PREFIX
+CGAL_INSTALL_MAN_DIR:STRING=share/man/man1
+
+//Value Computed by CMake
+CGAL_IS_TOP_LEVEL:STATIC=OFF
+
+//Switch on to start (naive) detection of duplicate source- and
+// headerfiles in packages
+CGAL_REPORT_DUPLICATE_FILES:BOOL=OFF
+
+//Value Computed by CMake
+CGAL_SOURCE_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src
+
+//If set, the ctest command will not skip the tests of the draw
+// functions.
+CGAL_TEST_DRAW_FUNCTIONS:BOOL=OFF
+
+//Use CGAL with GMPXX: use C++ classes of GNU MP instead of CGAL
+// wrappers
+CGAL_WITH_GMPXX:BOOL=ON
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/llvm-addr2line
@@ -486,6 +575,15 @@ Catch2_SOURCE_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/
 //Maximum time allowed before CTest will kill the test.
 DART_TESTING_TIMEOUT:STRING=1500
 
+//Value Computed by CMake
+Documentation_BINARY_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-build/Documentation/doc
+
+//Value Computed by CMake
+Documentation_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+Documentation_SOURCE_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src/Documentation/doc
+
 //Directory under which to collect all populated content
 FETCHCONTENT_BASE_DIR:PATH=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps
 
@@ -501,6 +599,10 @@ FETCHCONTENT_QUIET:BOOL=ON
 FETCHCONTENT_SOURCE_DIR_CATCH2:PATH=
 
 //When not empty, overrides where to find pre-populated content
+// for CGAL
+FETCHCONTENT_SOURCE_DIR_CGAL:PATH=
+
+//When not empty, overrides where to find pre-populated content
 // for glm
 FETCHCONTENT_SOURCE_DIR_GLM:PATH=
 
@@ -513,6 +615,9 @@ FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of Catch2
 FETCHCONTENT_UPDATES_DISCONNECTED_CATCH2:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of CGAL
+FETCHCONTENT_UPDATES_DISCONNECTED_CGAL:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of glm
 FETCHCONTENT_UPDATES_DISCONNECTED_GLM:BOOL=OFF
@@ -607,6 +712,21 @@ GLM_ENABLE_SIMD_SSSE3:BOOL=OFF
 //Force 'pure' instructions
 GLM_FORCE_PURE:BOOL=OFF
 
+//The directory containing the GMPXX include files
+GMPXX_INCLUDE_DIR:PATH=/usr/include
+
+//Path to the GMPXX library
+GMPXX_LIBRARIES:FILEPATH=/usr/lib/libgmpxx.so
+
+//The directory containing the GMP header files
+GMP_INCLUDE_DIR:PATH=/usr/include
+
+//Path to the Debug GMP library
+GMP_LIBRARY_DEBUG:FILEPATH=/usr/lib/libgmp.so
+
+//Path to the Release GMP library
+GMP_LIBRARY_RELEASE:FILEPATH=/lib/libgmp.so
+
 //Command to build the project
 MAKECOMMAND:STRING=/opt/cmake/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 
@@ -615,6 +735,14 @@ MEMORYCHECK_COMMAND:FILEPATH=MEMORYCHECK_COMMAND-NOTFOUND
 
 //File that contains suppressions for the memory checker
 MEMORYCHECK_SUPPRESSIONS_FILE:FILEPATH=
+
+//The directory containing the MPFR header files
+MPFR_INCLUDE_DIR:PATH=/usr/include
+
+//Path to the MPFR library
+MPFR_LIBRARIES:FILEPATH=/lib/libmpfr.so
+
+MPFR_LIBRARIES_DIR:FILEPATH=/lib
 
 //Path to a file.
 OGG_INCLUDE_DIR:PATH=/usr/include
@@ -745,6 +873,15 @@ VORBIS_INCLUDE_DIR:PATH=/usr/include
 
 //Path to a library.
 VORBIS_LIBRARY:FILEPATH=/usr/lib/libvorbis.so
+
+//Select demos
+WITH_demos:BOOL=OFF
+
+//Select examples
+WITH_examples:BOOL=OFF
+
+//Select tests
+WITH_tests:BOOL=OFF
 
 //Path to a file.
 X11_ICE_INCLUDE_PATH:PATH=/usr/include
@@ -1157,6 +1294,9 @@ X11_xkbfile_INCLUDE_PATH:PATH=/usr/include
 //Path to a library.
 X11_xkbfile_LIB:FILEPATH=/usr/lib/libxkbfile.so
 
+//The directory containing a CMake configuration file for boost_headers.
+boost_headers_DIR:PATH=/usr/lib/cmake/boost_headers-1.88.0
+
 //Value Computed by CMake
 glm_BINARY_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/glm-build
 
@@ -1186,6 +1326,10 @@ pkgcfg_lib_PKG_FONTCONFIG_freetype:FILEPATH=/usr/lib/libfreetype.so
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: Boost_DEBUG
+Boost_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_DIR
+Boost_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CATCH_CONFIG_ANDROID_LOGWRITE
 CATCH_CONFIG_ANDROID_LOGWRITE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CATCH_CONFIG_BAZEL_SUPPORT
@@ -1292,6 +1436,33 @@ CATCH_CONFIG_WCHAR-ADVANCED:INTERNAL=1
 CATCH_CONFIG_WINDOWS_CRTDBG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CATCH_CONFIG_WINDOWS_SEH
 CATCH_CONFIG_WINDOWS_SEH-ADVANCED:INTERNAL=1
+CGAL_3RD_PARTY_DEFINITIONS:INTERNAL=
+CGAL_3RD_PARTY_INCLUDE_DIRS:INTERNAL=
+CGAL_3RD_PARTY_LIBRARIES:INTERNAL=
+CGAL_3RD_PARTY_LIBRARIES_DIRS:INTERNAL=
+//Create CGAL from a Git branch
+CGAL_BRANCH_BUILD:INTERNAL=ON
+//ADVANCED property for variable: CGAL_Boost_USE_STATIC_LIBS
+CGAL_Boost_USE_STATIC_LIBS-ADVANCED:INTERNAL=1
+//STRINGS property for variable: CGAL_CMAKE_EXACT_NT_BACKEND
+CGAL_CMAKE_EXACT_NT_BACKEND-STRINGS:INTERNAL=GMP_BACKEND;GMPXX_BACKEND;BOOST_GMP_BACKEND;BOOST_BACKEND;LEDA_BACKEND;MP_FLOAT_BACKEND;Default
+//Directory containing the Core package
+CGAL_CORE_PACKAGE_DIR:INTERNAL=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src/Core
+//Variable hidden from user
+CGAL_ESSENTIAL_3RD_PARTY_LIBRARIES:INTERNAL=GMP;MPFR
+CGAL_EXECUTABLE_TARGETS:INTERNAL=
+//CGAL version
+CGAL_FULL_VERSION:INTERNAL=6.0.1-I-900
+//Directory containing the GraphicsView package
+CGAL_GRAPHICSVIEW_PACKAGE_DIR:INTERNAL=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src/GraphicsView
+//Directory containing the Installation package
+CGAL_INSTALLATION_PACKAGE_DIR:INTERNAL=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src/Installation
+//Directory containing the Maintenance package
+CGAL_MAINTENANCE_PACKAGE_DIR:INTERNAL=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/cgal-src/Maintenance
+//CGAL library is configured to use GMP
+CGAL_USE_GMP:INTERNAL=TRUE
+//CGAL library is configured to use MPFR
+CGAL_USE_MPFR:INTERNAL=TRUE
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -1501,10 +1672,16 @@ Catch2WithMain_GUID_CMAKE:INTERNAL=8bd3552a-2cfb-4a59-ab15-2031b97ada1e
 Catch2_GUID_CMAKE:INTERNAL=8d538cbe-01bf-4a2e-a98a-6c368fdf13d7
 //ADVANCED property for variable: DART_TESTING_TIMEOUT
 DART_TESTING_TIMEOUT-ADVANCED:INTERNAL=1
+//Details about finding Boost
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/lib/cmake/Boost-1.88.0/BoostConfig.cmake][ ][v1.88.0(1.72)]
 //Details about finding FLAC
 FIND_PACKAGE_MESSAGE_DETAILS_FLAC:INTERNAL=[/usr/lib/libFLAC.so][/usr/include][v()]
 //Details about finding Freetype
 FIND_PACKAGE_MESSAGE_DETAILS_Freetype:INTERNAL=[/usr/lib/libfreetype.so][/usr/include/freetype2][2.13.3][v()]
+//Details about finding GMP
+FIND_PACKAGE_MESSAGE_DETAILS_GMP:INTERNAL=[/usr/lib/libgmp.so][/usr/include][v()]
+//Details about finding MPFR
+FIND_PACKAGE_MESSAGE_DETAILS_MPFR:INTERNAL=[/lib/libmpfr.so][/usr/include][v()]
 //Details about finding OpenGL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/usr/lib/libOpenGL.so][/usr/lib/libGLX.so][/usr/include][found components: OpenGL ][v()]
 //Details about finding Threads
@@ -1908,6 +2085,8 @@ _CATCH_DISCOVER_TESTS_SCRIPT:INTERNAL=/home/bwallis/projects/walliscode/hollow-l
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
 __pkg_config_arguments_PKG_FONTCONFIG:INTERNAL=QUIET;fontconfig
 __pkg_config_checked_PKG_FONTCONFIG:INTERNAL=1
+//ADVANCED property for variable: boost_headers_DIR
+boost_headers_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_fontconfig
 pkgcfg_lib_PKG_FONTCONFIG_fontconfig-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_freetype

@@ -31,6 +31,9 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 # scripts to include. to keep top level cmake tidier
 include(fetch-content-modules)
 
+# find packages on system
+find_package(CGAL REQUIRED)
+
 add_subdirectory(config)
 add_subdirectory(src)
 add_subdirectory(hollow-lantern)
