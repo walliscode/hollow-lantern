@@ -61,4 +61,44 @@ TEST_CASE("VoxManipulator provides VoxData object", "[VoxManipulator]") {
   }
   // check if the number of visible voxels is less than the original
   REQUIRE(hollowed_voxel_count == 512);
+
+  // alternate between layer [9] and layer [0] being colored
+
+  for (size_t mask_indx = 0; mask_indx < model_data.masks.size(); ++mask_indx) {
+    const auto &mask = model_data.masks[mask_indx];
+    // print out mask data
+
+    for (size_t dim1 = 0; dim1 < mask.data.size(); ++dim1) {
+      for (size_t dim2 = 0; dim2 < mask.data[dim1].size(); ++dim2) {
+        for (size_t dim3 = 0; dim3 < mask.data[dim1][dim2].size(); ++dim3) {
+          if (mask.data[dim1][dim2][dim3].has_value()) {
+            std::cout << "[DEBUG] Mask[" << mask_indx << "] at (" << dim1
+                      << ", " << dim2 << ", " << dim3 << ") has color "
+                      << mask.data[dim1][dim2][dim3]->toInteger() << std::endl;
+          } else {
+            std::cout << "[DEBUG] Mask[" << mask_indx << "] at (" << dim1
+                      << ", " << dim2 << ", " << dim3
+                      << ") is not colored (nullopt)" << std::endl;
+          }
+        }
+      }
+    }
+    for (size_t dim1 = 0; dim1 < mask.data.size(); ++dim1) {
+      for (size_t dim2 = 0; dim2 < mask.data[dim1].size(); ++dim2) {
+        for (size_t dim3 = 0; dim3 < mask.data[dim1][dim2].size(); ++dim3) {
+          if (mask_indx % 2 == 0 && dim1 == 9) {
+
+            // if mask index is odd and sum of dimensions is even, color it
+            REQUIRE(mask.data[dim1][dim2][dim3].has_value());
+          } else if (mask_indx % 2 == 1 && dim1 == 0) {
+            // if mask index is even and sum of dimensions is odd, color it
+            REQUIRE(mask.data[dim1][dim2][dim3].has_value());
+          } else {
+            // if mask index is even and sum of dimensions is odd, not colored
+            REQUIRE(!mask.data[dim1][dim2][dim3].has_value());
+          }
+        }
+      }
+    }
+  }
 }
