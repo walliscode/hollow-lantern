@@ -17,9 +17,9 @@ void VoxManipulator::HollowAndMesh(ModelData &model_data) {
   HollowOut(model_data);
 
   // Step 2: Create masks based on the hollowed voxel data
-  CreateMasks(model_data);
+  // CreateMasks(model_data);
 
-  CreateTrianglesFromMask(model_data);
+  // CreateTrianglesFromMask(model_data);
   // Step 3: Generate triangles from the masks
   // GreedyMeshing(model_data);
 }
@@ -27,21 +27,11 @@ void VoxManipulator::HollowAndMesh(ModelData &model_data) {
 void VoxManipulator::HollowOut(ModelData &model_data) {
   std::cout << "[DEBUG] Starting HollowOut()" << std::endl;
 
-  // see how many voxels are present at the start
-  std::cout << "[DEBUG] Initial voxel count: "
-            << model_data.size.x * model_data.size.y * model_data.size.z
-            << std::endl;
-  // Create a buffer to store which voxels should be hollowed
-  std::vector<std::vector<std::vector<bool>>> hollowed(
-      model_data.size.x,
-      std::vector<std::vector<bool>>(
-          model_data.size.y, std::vector<bool>(model_data.size.z, false)));
-
-  // First pass: evaluate but do not change is_visible
+  // check all neighbors of each voxel and see if visisble or not
   for (int x = 0; x < model_data.size.x; ++x) {
     for (int y = 0; y < model_data.size.y; ++y) {
       for (int z = 0; z < model_data.size.z; ++z) {
-        const Voxel &voxel = model_data.voxel_data[x][y][z];
+        Voxel &voxel = model_data.voxel_data[x][y][z];
         if (!voxel.is_visible)
           continue;
         // Check neighbors in all 6 directions
@@ -64,38 +54,13 @@ void VoxManipulator::HollowOut(ModelData &model_data) {
 
         // If it has all 6 neighbors, mark to be hollowed
         if (neighbors == 6) {
-          hollowed[x][y][z] = true;
-        }
-      }
-    }
-  }
-
-  // Second pass: update is_visible
-  for (int x = 0; x < model_data.size.x; ++x) {
-    for (int y = 0; y < model_data.size.y; ++y) {
-      for (int z = 0; z < model_data.size.z; ++z) {
-        if (hollowed[x][y][z]) {
-          model_data.voxel_data[x][y][z].is_visible = false;
+          voxel.is_internal_voxel = true;
         }
       }
     }
   }
 
   std::cout << "[DEBUG] Finished HollowOut()" << std::endl;
-
-  // print out remaining visible voxels
-  size_t visible_count = 0;
-  for (int x = 0; x < model_data.size.x; ++x) {
-    for (int y = 0; y < model_data.size.y; ++y) {
-      for (int z = 0; z < model_data.size.z; ++z) {
-        if (model_data.voxel_data[x][y][z].is_visible) {
-          ++visible_count;
-        }
-      }
-    }
-  }
-  std::cout << "[DEBUG] Remaining visible voxel count: " << visible_count
-            << std::endl;
 }
 
 /////////////////////////////////////////////////
