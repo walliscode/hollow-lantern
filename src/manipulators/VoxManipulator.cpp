@@ -1,4 +1,3 @@
-
 /// @file
 /// @brief Implementation of VoxManipulator class
 /////////////////////////////////////////////////
@@ -16,18 +15,22 @@ void VoxManipulator::HollowAndMesh(ModelData &model_data) {
   std::cout << "[DEBUG] Starting HollowAndMesh()" << std::endl;
   // Step 1: Hollow out the voxel data
   HollowOut(model_data);
-  std::cout << "[DEBUG] Finished HollowOut()" << std::endl;
+
   // Step 2: Create masks based on the hollowed voxel data
   CreateMasks(model_data);
-  std::cout << "[DEBUG] Finished CreateMasks()" << std::endl;
+
+  CreateTrianglesFromMask(model_data);
   // Step 3: Generate triangles from the masks
-  GreedyMeshing(model_data);
-  std::cout << "[DEBUG] Finished GreedyMeshing()" << std::endl;
+  // GreedyMeshing(model_data);
 }
 /////////////////////////////////////////////////
 void VoxManipulator::HollowOut(ModelData &model_data) {
   std::cout << "[DEBUG] Starting HollowOut()" << std::endl;
 
+  // see how many voxels are present at the start
+  std::cout << "[DEBUG] Initial voxel count: "
+            << model_data.size.x * model_data.size.y * model_data.size.z
+            << std::endl;
   // Create a buffer to store which voxels should be hollowed
   std::vector<std::vector<std::vector<bool>>> hollowed(
       model_data.size.x,
@@ -73,50 +76,68 @@ void VoxManipulator::HollowOut(ModelData &model_data) {
       for (int z = 0; z < model_data.size.z; ++z) {
         if (hollowed[x][y][z]) {
           model_data.voxel_data[x][y][z].is_visible = false;
-          std::cout << "[DEBUG] Voxel at (" << x << "," << y << "," << z
-                    << ") hollowed out." << std::endl;
         }
       }
     }
   }
 
   std::cout << "[DEBUG] Finished HollowOut()" << std::endl;
+
+  // print out remaining visible voxels
+  size_t visible_count = 0;
+  for (int x = 0; x < model_data.size.x; ++x) {
+    for (int y = 0; y < model_data.size.y; ++y) {
+      for (int z = 0; z < model_data.size.z; ++z) {
+        if (model_data.voxel_data[x][y][z].is_visible) {
+          ++visible_count;
+        }
+      }
+    }
+  }
+  std::cout << "[DEBUG] Remaining visible voxel count: " << visible_count
+            << std::endl;
 }
 
 /////////////////////////////////////////////////
 void VoxManipulator::CreateMasks(ModelData &model_data) {
   std::cout << "[DEBUG] Starting CreateMasks()" << std::endl;
   auto &voxel_data = model_data.voxel_data;
-  size_t mask_count = 0;
 
   for (auto &mask : model_data.masks) {
-    std::cout << "[DEBUG] Creating mask #" << mask_count << " for direction "
-              << (int)mask.direction << std::endl;
 
     // Resize mask.data before accessing it
     switch (mask.direction) {
     case Direction::X_POSITIVE:
     case Direction::X_NEGATIVE: {
-      // mask.data[y][z] : y = size.y, z = size.z
-      mask.data.resize(model_data.size.y);
-      for (size_t y = 0; y < model_data.size.y; ++y)
-        mask.data[y].resize(model_data.size.z);
+      // mask.data[x][y][z]
+      mask.data.resize(model_data.size.x);
+      for (size_t x = 0; x < model_data.size.x; ++x) {
+        mask.data[x].resize(model_data.size.y);
+        for (size_t y = 0; y < model_data.size.y; ++y)
+          mask.data[x][y].resize(model_data.size.z);
+      }
       break;
     }
     case Direction::Y_POSITIVE:
     case Direction::Y_NEGATIVE: {
-      // mask.data[x][z] : x = size.x, z = size.z
-      mask.data.resize(model_data.size.x);
-      for (size_t x = 0; x < model_data.size.x; ++x)
-        mask.data[x].resize(model_data.size.z);
+      // mask.data[y][z][x]
+      mask.data.resize(model_data.size.y);
+      for (size_t y = 0; y < model_data.size.y; ++y) {
+        mask.data[y].resize(model_data.size.z);
+        for (size_t z = 0; z < model_data.size.z; ++z)
+          mask.data[y][z].resize(model_data.size.x);
+      }
       break;
     }
     case Direction::Z_POSITIVE:
     case Direction::Z_NEGATIVE: {
-      // mask.data[x][y] : x = size.x, y = size.y
-      mask.data.resize(model_data.size.x);
-      for (size_t x = 0; x < model_data.size.x; ++x)
-        mask.data[x].resize(model_data.size.y);
+      // mask.data[z][x][y]
+      mask.data.resize(model_data.size.z);
+      for (size_t z = 0; z < model_data.size.z; ++z) {
+        mask.data[z].resize(model_data.size.x);
+        for (size_t x = 0; x < model_data.size.x; ++x)
+          mask.data[z][x].resize(model_data.size.y);
+      }
       break;
     }
     default:
@@ -125,23 +146,37 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
       break;
     }
 
+    std::cout << "[DEBUG] Mask data resized for direction "
+              << static_cast<int>(mask.direction) << std::endl;
     switch (mask.direction) {
     case Direction::X_POSITIVE: {
+      // X_POSITIVE: we look at each x slice and evaluate y,z
       for (size_t x = 0; x < model_data.size.x; ++x) {
         for (size_t y = 0; y < model_data.size.y; ++y) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
-              if (x == model_data.size.x - 1 ||
-                  !voxel_data[x + 1][y][z].is_visible ||
-                  voxel_data[x][y][z].color != voxel_data[x + 1][y][z].color) {
-                mask.data[y][z] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask X_POSITIVE: Visible at (" << x << ","
-                          << y << "," << z << ")" << std::endl;
+              // we need to check every voxel that could cover it
+              bool is_masked_voxel = false;
+              for (size_t x_check = x; x_check < model_data.size.x; ++x_check) {
+                // if current position or end position
+                if (x_check == x)
+                  continue;
+                if (voxel_data[x_check][y][z].is_visible) {
+                  is_masked_voxel = true;
+                  break;
+                }
+              }
+
+              if (!is_masked_voxel) {
+                mask.data[x][y][z] = voxel_data[x][y][z].color;
+                std::cout << "[DEBUG] Mask data at (" << x << ", " << y << ", "
+                          << z << ") set to color: "
+                          << voxel_data[x][y][z].color.toInteger() << std::endl;
               } else {
-                mask.data[y][z] = std::nullopt;
+                mask.data[x][y][z] = std::nullopt;
               }
             } else {
-              mask.data[y][z] = std::nullopt;
+              mask.data[x][y][z] = std::nullopt;
             }
           }
         }
@@ -149,42 +184,52 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
       break;
     }
     case Direction::X_NEGATIVE: {
-      for (int x = (int)model_data.size.x - 1; x >= 0; --x) {
+      // start from the other end of the model
+      // X_NEGATIVE: we look at each x slice and evaluate y,z
+      for (size_t x = model_data.size.x - 1; x < model_data.size.x; --x) {
         for (size_t y = 0; y < model_data.size.y; ++y) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
-              if (x == 0 || !voxel_data[x - 1][y][z].is_visible ||
-                  voxel_data[x][y][z].color != voxel_data[x - 1][y][z].color) {
-                mask.data[y][z] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask X_NEGATIVE: Visible at (" << x << ","
-                          << y << "," << z << ")" << std::endl;
+              // we need to check every voxel that could cover it
+              bool is_masked_voxel = false;
+              for (size_t x_check = x; x_check >= 0; --x_check) {
+                // if current position or end position
+                if (x_check == x)
+                  continue;
+                if (voxel_data[x_check][y][z].is_visible) {
+                  is_masked_voxel = true;
+                  break;
+                }
+              }
+              if (!is_masked_voxel) {
+                mask.data[x][y][z] = voxel_data[x][y][z].color;
+                std::cout << "[DEBUG] Mask data at (" << x << ", " << y << ", "
+                          << z << ") set to color: "
+                          << voxel_data[x][y][z].color.toInteger() << std::endl;
               } else {
-                mask.data[y][z] = std::nullopt;
+                mask.data[x][y][z] = std::nullopt;
               }
             } else {
-              mask.data[y][z] = std::nullopt;
+              mask.data[x][y][z] = std::nullopt;
             }
           }
         }
       }
-      break;
     }
     case Direction::Y_POSITIVE: {
+      // Y_POSITIVE: we look at each y slice and evaluate x,z
       for (size_t y = 0; y < model_data.size.y; ++y) {
         for (size_t x = 0; x < model_data.size.x; ++x) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
               if (y == model_data.size.y - 1 ||
-                  !voxel_data[x][y + 1][z].is_visible ||
-                  voxel_data[x][y][z].color != voxel_data[x][y + 1][z].color) {
-                mask.data[x][z] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask Y_POSITIVE: Visible at (" << x << ","
-                          << y << "," << z << ")" << std::endl;
+                  !voxel_data[x][y + 1][z].is_visible) {
+                mask.data[y][z][x] = voxel_data[x][y][z].color;
               } else {
-                mask.data[x][z] = std::nullopt;
+                mask.data[y][z][x] = std::nullopt;
               }
             } else {
-              mask.data[x][z] = std::nullopt;
+              mask.data[y][z][x] = std::nullopt;
             }
           }
         }
@@ -192,20 +237,18 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
       break;
     }
     case Direction::Y_NEGATIVE: {
-      for (int y = (int)model_data.size.y - 1; y >= 0; --y) {
+      // Y_NEGATIVE: we look at each y slice and evaluate x,z
+      for (size_t y = 0; y < model_data.size.y; ++y) {
         for (size_t x = 0; x < model_data.size.x; ++x) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
-              if (y == 0 || !voxel_data[x][y - 1][z].is_visible ||
-                  voxel_data[x][y][z].color != voxel_data[x][y - 1][z].color) {
-                mask.data[x][z] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask Y_NEGATIVE: Visible at (" << x << ","
-                          << y << "," << z << ")" << std::endl;
+              if (y == 0 || !voxel_data[x][y - 1][z].is_visible) {
+                mask.data[y][z][x] = voxel_data[x][y][z].color;
               } else {
-                mask.data[x][z] = std::nullopt;
+                mask.data[y][z][x] = std::nullopt;
               }
             } else {
-              mask.data[x][z] = std::nullopt;
+              mask.data[y][z][x] = std::nullopt;
             }
           }
         }
@@ -213,21 +256,19 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
       break;
     }
     case Direction::Z_POSITIVE: {
+      // Z_POSITIVE: we look at each z slice and evaluate x,y
       for (size_t z = 0; z < model_data.size.z; ++z) {
         for (size_t x = 0; x < model_data.size.x; ++x) {
           for (size_t y = 0; y < model_data.size.y; ++y) {
             if (voxel_data[x][y][z].is_visible) {
               if (z == model_data.size.z - 1 ||
-                  !voxel_data[x][y][z + 1].is_visible ||
-                  voxel_data[x][y][z].color != voxel_data[x][y][z + 1].color) {
-                mask.data[x][y] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask Z_POSITIVE: Visible at (" << x << ","
-                          << y << "," << z << ")" << std::endl;
+                  !voxel_data[x][y][z + 1].is_visible) {
+                mask.data[z][x][y] = voxel_data[x][y][z].color;
               } else {
-                mask.data[x][y] = std::nullopt;
+                mask.data[z][x][y] = std::nullopt;
               }
             } else {
-              mask.data[x][y] = std::nullopt;
+              mask.data[z][x][y] = std::nullopt;
             }
           }
         }
@@ -235,20 +276,18 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
       break;
     }
     case Direction::Z_NEGATIVE: {
-      for (int z = (int)model_data.size.z - 1; z >= 0; --z) {
+      // Z_NEGATIVE: we look at each z slice and evaluate x,y
+      for (size_t z = 0; z < model_data.size.z; ++z) {
         for (size_t x = 0; x < model_data.size.x; ++x) {
           for (size_t y = 0; y < model_data.size.y; ++y) {
             if (voxel_data[x][y][z].is_visible) {
-              if (z == 0 || !voxel_data[x][y][z - 1].is_visible ||
-                  voxel_data[x][y][z].color != voxel_data[x][y][z - 1].color) {
-                mask.data[x][y] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask Z_NEGATIVE: Visible at (" << x << ","
-                          << y << "," << z << ")" << std::endl;
+              if (z == 0 || !voxel_data[x][y][z - 1].is_visible) {
+                mask.data[z][x][y] = voxel_data[x][y][z].color;
               } else {
-                mask.data[x][y] = std::nullopt;
+                mask.data[z][x][y] = std::nullopt;
               }
             } else {
-              mask.data[x][y] = std::nullopt;
+              mask.data[z][x][y] = std::nullopt;
             }
           }
         }
@@ -260,26 +299,122 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
                 << std::endl;
       break;
     }
-    ++mask_count;
   }
   std::cout << "[DEBUG] Finished CreateMasks()" << std::endl;
 }
+
 /////////////////////////////////////////////////
 void VoxManipulator::CreateTrianglesFromMask(ModelData &model_data) {
+
   std::cout << "[DEBUG] Starting CreateTrianglesFromMask()" << std::endl;
-  model_data.triangles.clear(); // Clear previous results
+  // clear previous triangles (if any)
+  model_data.triangles.clear();
+
+  // the mask will have x,y and z in any order we will call them dimension_one
+  // e.t.c. iterate over each mask and create triangles from voxel data
   for (const auto &mask : model_data.masks) {
-    for (size_t y = 0; y < mask.data.size(); ++y) {
-      for (size_t x = 0; x < mask.data[y].size(); ++x) {
-        if (mask.data[y][x].has_value()) {
-          sf::Color color = mask.data[y][x].value();
-          glm::vec3 position(x, y, 0); // Assuming Z=0 for 2D projection
-          model_data.triangles.emplace_back(
-              position, position + glm::vec3(1, 0, 0),
-              position + glm::vec3(0, 1, 0), color, mask.direction);
-          model_data.triangles.emplace_back(
-              position + glm::vec3(1, 0, 0), position + glm::vec3(1, 1, 0),
-              position + glm::vec3(0, 1, 0), color, mask.direction);
+    std::cout << "[DEBUG] Processing mask for direction "
+              << static_cast<int>(mask.direction) << std::endl;
+    // Iterate over the mask data
+    for (size_t dim1 = 0; dim1 < mask.data.size(); ++dim1) {
+      for (size_t dim2 = 0; dim2 < mask.data[dim1].size(); ++dim2) {
+        for (size_t dim3 = 0; dim3 < mask.data[dim1][dim2].size(); ++dim3) {
+          if (mask.data[dim1][dim2][dim3].has_value()) {
+            std::cout << "[DEBUG] Found voxel at (" << dim1 << ", " << dim2
+                      << ", " << dim3 << ") with color "
+                      << mask.data[dim1][dim2][dim3]->toInteger() << std::endl;
+            sf::Color color = mask.data[dim1][dim2][dim3].value();
+            glm::vec3 vertex_position;
+
+            // create two Triangle objects for each voxel
+            Triangle triangle1, triangle2;
+
+            // Determine vertex position based on direction as we are drawing
+            // triangles on sides of a cube
+            switch (mask.direction) {
+
+              // positive directions are the front of the cube so will need
+              // shifting the slice dimension by 1
+              // negative directions are the back of the cube so will not need
+              // shifting the slice dimension
+            case Direction::X_POSITIVE:
+              triangle1 = Triangle(glm::vec3(dim1 + 1.0f, dim2, dim3),     // v0
+                                   glm::vec3(dim1 + 1.0f, dim2 + 1, dim3), // v1
+                                   glm::vec3(dim1 + 1.0f, dim2, dim3 + 1), // v2
+                                   color, mask.direction);
+
+              triangle2 =
+                  Triangle(glm::vec3(dim1 + 1.0f, dim2 + 1, dim3),     // v2
+                           glm::vec3(dim1 + 1.0f, dim2 + 1, dim3 + 1), // v3
+                           glm::vec3(dim1 + 1.0f, dim2, dim3 + 1),     // v4
+                           color, mask.direction);
+
+              break;
+            case Direction::X_NEGATIVE:
+              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3),     // v0
+                                   glm::vec3(dim1, dim2 + 1, dim3), // v1
+                                   glm::vec3(dim1, dim2, dim3 + 1), // v2
+                                   color, mask.direction);
+              triangle2 = Triangle(glm::vec3(dim1, dim2 + 1, dim3),     // v2
+                                   glm::vec3(dim1, dim2 + 1, dim3 + 1), // v3
+                                   glm::vec3(dim1, dim2, dim3 + 1),     // v4
+                                   color, mask.direction);
+              break;
+            case Direction::Y_POSITIVE:
+              triangle1 = Triangle(glm::vec3(dim1, dim2 + 1.0f, dim3),     // v0
+                                   glm::vec3(dim1 + 1, dim2 + 1.0f, dim3), // v1
+                                   glm::vec3(dim1, dim2 + 1.0f, dim3 + 1), // v2
+                                   color, mask.direction);
+              triangle2 =
+                  Triangle(glm::vec3(dim1 + 1, dim2 + 1.0f, dim3),     // v2
+                           glm::vec3(dim1 + 1, dim2 + 1.0f, dim3 + 1), // v3
+                           glm::vec3(dim1, dim2 + 1.0f, dim3 + 1),     // v4
+                           color, mask.direction);
+
+              break;
+            case Direction::Y_NEGATIVE:
+              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3),     // v0
+                                   glm::vec3(dim1 + 1, dim2, dim3), // v1
+                                   glm::vec3(dim1, dim2, dim3 + 1), // v2
+                                   color, mask.direction);
+              triangle2 = Triangle(glm::vec3(dim1 + 1, dim2, dim3),     // v2
+                                   glm::vec3(dim1 + 1, dim2, dim3 + 1), // v3
+                                   glm::vec3(dim1, dim2, dim3 + 1),     // v4
+                                   color, mask.direction);
+
+              break;
+            case Direction::Z_POSITIVE:
+              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3 + 1.0f),     // v0
+                                   glm::vec3(dim1 + 1, dim2, dim3 + 1.0f), // v1
+                                   glm::vec3(dim1, dim2 + 1, dim3 + 1.0f), // v2
+                                   color, mask.direction);
+
+              triangle2 =
+                  Triangle(glm::vec3(dim1 + 1, dim2, dim3 + 1.0f),     // v2
+                           glm::vec3(dim1 + 1, dim2 + 1, dim3 + 1.0f), // v3
+                           glm::vec3(dim1, dim2 + 1, dim3 + 1.0f),     // v4
+                           color, mask.direction);
+              break;
+
+            case Direction::Z_NEGATIVE:
+              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3),     // v0
+                                   glm::vec3(dim1 + 1, dim2, dim3), // v1
+                                   glm::vec3(dim1, dim2 + 1, dim3), // v2
+                                   color, mask.direction);
+              triangle2 = Triangle(glm::vec3(dim1 + 1, dim2, dim3),     // v2
+                                   glm::vec3(dim1 + 1, dim2 + 1, dim3), // v3
+                                   glm::vec3(dim1, dim2 + 1, dim3),     // v4
+                                   color, mask.direction);
+              break;
+            default:
+              std::cout << "[DEBUG] Unknown mask direction: "
+                        << static_cast<int>(mask.direction) << std::endl;
+              continue;
+            }
+            // Create a triangle from the vertex position and color
+            model_data.triangles.emplace_back(triangle1);
+            model_data.triangles.emplace_back(triangle2);
+          }
         }
       }
     }
@@ -293,110 +428,105 @@ void VoxManipulator::GreedyMeshing(ModelData &model_data) {
 
   size_t mask_index = 0;
   for (const auto &mask : model_data.masks) {
+    // convenience variable for number of slices in the mask
+    size_t slice = mask.data.size();
+    if (slice == 0) {
+      std::cout << "[DEBUG] Mask #" << mask_index << " has no slices, skipping."
+                << std::endl;
+      ++mask_index;
+      continue;
+    }
     // Determine mask size (rows, cols)
-    size_t rows = mask.data.size();
+    size_t rows = mask.data[0].size();
     if (rows == 0) {
       std::cout << "[DEBUG] Mask #" << mask_index << " has 0 rows, skipping."
                 << std::endl;
       ++mask_index;
       continue;
     }
-    size_t cols = mask.data[0].size();
+    size_t cols = mask.data[0][0].size();
 
-    // Track which cells are already meshed
-    std::vector<std::vector<bool>> visited(rows,
-                                           std::vector<bool>(cols, false));
+    // Track which cells are already meshed using a corresponding 3D vector of
+    // bools. The order must match mask.data[dim1][dim2][dim3].
+    std::vector<std::vector<std::vector<bool>>> visited(
+        slice,
+        std::vector<std::vector<bool>>(rows, std::vector<bool>(cols, false)));
 
-    for (size_t y = 0; y < rows; ++y) {
-      for (size_t x = 0; x < cols; ++x) {
-        // Only process unvisited, colored cells
-        if (!visited[y][x] && mask.data[y][x].has_value()) {
-          sf::Color color = mask.data[y][x].value();
+    // Iterate over each slice of the mask and find quads
+    for (size_t dim1 = 0; dim1 < slice; ++dim1) {
+      for (size_t dim2 = 0; dim2 < rows; ++dim2) {
+        for (size_t dim3 = 0; dim3 < cols; ++dim3) {
+          // Only process unvisited, colored cells
+          if (!visited[dim1][dim2][dim3] &&
+              mask.data[dim1][dim2][dim3].has_value()) {
+            sf::Color color = mask.data[dim1][dim2][dim3].value();
 
-          // Find maximal width
-          size_t width = 1;
-          while (x + width < cols && !visited[y][x + width] &&
-                 mask.data[y][x + width].has_value() &&
-                 mask.data[y][x + width].value() == color) {
-            ++width;
-          }
-          // Find maximal height
-          size_t height = 1;
-          bool can_expand = true;
-          while (y + height < rows && can_expand) {
-            for (size_t w = 0; w < width; ++w) {
-              if (visited[y + height][x + w] ||
-                  !mask.data[y + height][x + w].has_value() ||
-                  mask.data[y + height][x + w].value() != color) {
-                can_expand = false;
-                break;
-              }
+            // Find maximal width
+            size_t width = 1;
+            // Expand to the right as long as the next cell is the same color
+            while (dim3 + width < cols && !visited[dim1][dim2][dim3 + width] &&
+                   mask.data[dim1][dim2][dim3 + width].has_value() &&
+                   mask.data[dim1][dim2][dim3 + width].value() == color) {
+              ++width;
             }
-            if (can_expand)
-              ++height;
-          }
+            // Find maximal height
+            size_t height = 1;
+            // Expand downwards as long as the next row is the same color
+            // (uses width specified above)
+            bool can_expand = true;
+            while (dim2 + height < rows && can_expand) {
 
-          std::cout << "[DEBUG] Creating quad at mask #" << mask_index
-                    << " position (" << x << "," << y << ") with size " << width
-                    << "x" << height << " and color (" << (int)color.r << ","
-                    << (int)color.g << "," << (int)color.b << ","
-                    << (int)color.a << ")" << std::endl;
+              // the whole row must be the the same colour for the increase in
+              // height so we end up with squares
+              for (size_t w = 0; w < width; ++w) {
+                if (visited[dim1][dim2 + height][dim3 + w] ||
+                    !mask.data[dim1][dim2 + height][dim3 + w].has_value() ||
+                    mask.data[dim1][dim2 + height][dim3 + w].value() != color) {
+                  can_expand = false;
+                  break;
+                }
+              }
+              if (can_expand)
+                ++height;
+            }
 
-          // Mark all cells in the quad as visited
-          for (size_t dy = 0; dy < height; ++dy)
-            for (size_t dx = 0; dx < width; ++dx)
-              visited[y + dy][x + dx] = true;
+            // Mark all cells in the quad as visited
+            for (size_t dy = 0; dy < height; ++dy)
+              for (size_t dx = 0; dx < width; ++dx)
+                visited[dim1][dim2 + dy][dim3 + dx] = true;
 
-          // Compute quad corners in 3D space
-          std::array<glm::vec3, 4> quad_vertices;
-          switch (mask.direction) {
-          case Direction::X_POSITIVE:
-          case Direction::X_NEGATIVE: {
-            // x = constant, y and z vary
-            int X = (mask.direction == Direction::X_POSITIVE)
-                        ? model_data.size.x - 1
-                        : 0;
-            quad_vertices = {glm::vec3(X, y, x), glm::vec3(X, y, x + width),
-                             glm::vec3(X, y + height, x),
-                             glm::vec3(X, y + height, x + width)};
-            break;
-          }
-          case Direction::Y_POSITIVE:
-          case Direction::Y_NEGATIVE: {
-            // y = constant, x and z vary
-            int Y = (mask.direction == Direction::Y_POSITIVE)
-                        ? model_data.size.y - 1
-                        : 0;
-            quad_vertices = {glm::vec3(x, Y, y), glm::vec3(x + width, Y, y),
-                             glm::vec3(x, Y, y + height),
-                             glm::vec3(x + width, Y, y + height)};
-            break;
-          }
-          case Direction::Z_POSITIVE:
-          case Direction::Z_NEGATIVE: {
-            // z = constant, x and y vary
-            int Z = (mask.direction == Direction::Z_POSITIVE)
-                        ? model_data.size.z - 1
-                        : 0;
-            quad_vertices = {glm::vec3(x, y, Z), glm::vec3(x + width, y, Z),
-                             glm::vec3(x, y + height, Z),
-                             glm::vec3(x + width, y + height, Z)};
-            break;
-          }
-          default:
-            std::cout << "[DEBUG] Unknown mask direction in GreedyMeshing: "
-                      << (int)mask.direction << std::endl;
-            continue;
-          }
+            // create two triangles to add to the model data
+            Triangle triangle1, triangle2;
+            switch (mask.direction) {
+            case Direction::X_POSITIVE:
+              // TODO: Fill in correct triangle creation for greedy meshing
+              break;
+            case Direction::X_NEGATIVE:
+              // TODO: Fill in correct triangle creation for greedy meshing
+              break;
+            case Direction::Y_POSITIVE:
+              // TODO: Fill in correct triangle creation for greedy meshing
+              break;
+            case Direction::Y_NEGATIVE:
+              // TODO: Fill in correct triangle creation for greedy meshing
+              break;
+            case Direction::Z_POSITIVE:
+              // TODO: Fill in correct triangle creation for greedy meshing
+              break;
+            case Direction::Z_NEGATIVE:
+              // TODO: Fill in correct triangle creation for greedy meshing
+              break;
+            default:
+              std::cout << "[DEBUG] Unknown mask direction in GreedyMeshing: "
+                        << (int)mask.direction << std::endl;
+              continue;
+            }
 
-          // Split quad into two triangles
-          // Triangle 1: v0, v1, v2 | Triangle 2: v2, v1, v3
-          model_data.triangles.emplace_back(quad_vertices[0], quad_vertices[1],
-                                            quad_vertices[2], color,
-                                            mask.direction);
-          model_data.triangles.emplace_back(quad_vertices[2], quad_vertices[1],
-                                            quad_vertices[3], color,
-                                            mask.direction);
+            // Split quad into two triangles
+            // Triangle 1: v0, v1, v2 | Triangle 2: v2, v1, v3
+            model_data.triangles.emplace_back(triangle1);
+            model_data.triangles.emplace_back(triangle2);
+          }
         }
       }
     }

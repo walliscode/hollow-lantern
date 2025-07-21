@@ -125,11 +125,6 @@ void Projector::FixedAngleProjection(ModelData &model_data,
           glm::vec4(triangles[tri_idx].vertices[vert_idx], 1.0f);
       triangles[tri_idx].vertices[vert_idx] = glm::vec3(
           transformed_vertex.x, transformed_vertex.y, transformed_vertex.z);
-      std::cout << "[DEBUG] Transformed vertex #" << vert_idx
-                << " of triangle #" << tri_idx << ": ("
-                << triangles[tri_idx].vertices[vert_idx].x << ", "
-                << triangles[tri_idx].vertices[vert_idx].y << ", "
-                << triangles[tri_idx].vertices[vert_idx].z << ")" << std::endl;
     }
   }
   std::cout << "[DEBUG] Before back face culling: " << triangles.size()
@@ -194,8 +189,6 @@ void Projector::ImplementBackFaceCulling(
     glm::vec3 normal = glm::normalize(glm::cross(edge1, edge2));
 
     // Debug print normal
-    std::cout << "[DEBUG] Triangle normal: (" << normal.x << ", " << normal.y
-              << ", " << normal.z << ")" << std::endl;
 
     if (normal.z < 0.0f) {
       it = triangles.erase(it);
@@ -298,9 +291,6 @@ sf::VertexArray Projector::ProjectOntoVertexArray(
       result.append(sf::Vertex(sf::Vector2f(triangle.vertices[vert_idx].x,
                                             triangle.vertices[vert_idx].y),
                                triangle.color));
-      std::cout << "[DEBUG] Projected vertex #" << vert_idx << " of triangle #"
-                << tri_idx << ": (" << triangle.vertices[vert_idx].x << ", "
-                << triangle.vertices[vert_idx].y << ")" << std::endl;
     }
   }
   return result;

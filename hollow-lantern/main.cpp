@@ -35,7 +35,7 @@ int main() {
   hollow_lantern::Projector projector;
   // projector.BasicProjection(model_data, {30.f, 0.0f, 0.0f}, 8,
   //                           {0.0f, 1.0f, 0.0f});
-  projector.FixedAngleProjection(model_data, {-15, 45.0f, 0.0f});
+  projector.FixedAngleProjection(model_data, {0.f, 0.0f, 0.0f});
 
   std::cout << "[DEBUG] Projected model data." << std::endl;
   // convenience reference to the projected shapes
@@ -67,8 +67,6 @@ int main() {
 
       shape[i].position -= center;
       shape[i].position += sf::Vector2f(400, 300); // Center in a 800x600 window
-      std::cout << "[DEBUG] Vertex " << i << ": " << shape[i].position.x << ", "
-                << shape[i].position.y << std::endl;
     }
   }
   // create the window
@@ -76,7 +74,7 @@ int main() {
 
   // zoom in on the center of the window
   sf::View view = window.getView();
-  view.zoom(0.25f); // Zoom in
+  view.zoom(0.1f); // Zoom in
   window.setView(view);
   // set the frame rate limit
   window.setFramerateLimit(2);

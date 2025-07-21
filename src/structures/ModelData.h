@@ -49,8 +49,11 @@ struct Voxel {
 struct Mask {
   /////////////////////////////////////////////////
   /// @brief Stores the color data for each voxel in the mask
+  ///
+  /// The mask is generated per slice of a direction e.g. for X_POSITIVE, we
+  /// have y,z data for each +x
   /////////////////////////////////////////////////
-  std::vector<std::vector<std::optional<sf::Color>>> data;
+  std::vector<std::vector<std::vector<std::optional<sf::Color>>>> data;
 
   /////////////////////////////////////////////////
   /// @brief Convenience variable to provide a direction for the mask
@@ -76,6 +79,7 @@ struct Triangle {
   /////////////////////////////////////////////////
   Direction direction{Direction::NONE};
 
+  Triangle() = default;
   Triangle(const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3,
            const sf::Color &col, Direction dir)
       : vertices{v1, v2, v3}, color(col), direction(dir) {};
