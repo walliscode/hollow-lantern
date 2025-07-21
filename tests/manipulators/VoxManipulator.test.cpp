@@ -101,4 +101,8 @@ TEST_CASE("VoxManipulator provides VoxData object", "[VoxManipulator]") {
       }
     }
   }
+  // check if the triangles are generated
+  REQUIRE(!model_data.triangles.empty());
+  // should be 200 triangles generated per face so 1000 triangles in total
+  REQUIRE(model_data.triangles.size() == 1200);
 }

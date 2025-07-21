@@ -19,7 +19,7 @@ void VoxManipulator::HollowAndMesh(ModelData &model_data) {
   // Step 2: Create masks based on the hollowed voxel data
   CreateMasks(model_data);
 
-  // CreateTrianglesFromMask(model_data);
+  CreateTrianglesFromMask(model_data);
   // Step 3: Generate triangles from the masks
   // GreedyMeshing(model_data);
 }
@@ -260,10 +260,9 @@ void VoxManipulator::CreateTrianglesFromMask(ModelData &model_data) {
     for (size_t dim1 = 0; dim1 < mask.data.size(); ++dim1) {
       for (size_t dim2 = 0; dim2 < mask.data[dim1].size(); ++dim2) {
         for (size_t dim3 = 0; dim3 < mask.data[dim1][dim2].size(); ++dim3) {
+
+          // check if the voxel has been included here
           if (mask.data[dim1][dim2][dim3].has_value()) {
-            std::cout << "[DEBUG] Found voxel at (" << dim1 << ", " << dim2
-                      << ", " << dim3 << ") with color "
-                      << mask.data[dim1][dim2][dim3]->toInteger() << std::endl;
             sf::Color color = mask.data[dim1][dim2][dim3].value();
             glm::vec3 vertex_position;
 
