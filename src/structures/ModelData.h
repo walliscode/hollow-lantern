@@ -44,6 +44,11 @@ struct Voxel {
   /// @brief For turning the voxel on or off
   /////////////////////////////////////////////////
   bool is_visible{false};
+
+  /////////////////////////////////////////////////
+  /// @brief Indicates if the voxel has 6 immediate neighbours
+  /////////////////////////////////////////////////
+  bool is_internal_voxel{false};
 };
 
 struct Mask {
