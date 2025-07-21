@@ -1,180 +1,299 @@
-///////////////////////////////////////////////
+///////////////////////////////////////////////////
 /// @file
-/// @brief Implementation of the Projector class
+/// @brief Implementation of the Projector class (with debug statements)
 /////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
-/// Headers
-/////////////////////////////////////////////////
 #include "Projector.h"
 #include "ModelData.h"
-#include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
-#include "glm/fwd.hpp"
-#include <iostream> // [DEBUG] Add for debug output
-#include <unordered_set>
+#include <SFML/Graphics/PrimitiveType.hpp>
+#include <iostream>
+#include <vector>
 
 namespace hollow_lantern {
-glm::vec3 quantize(const glm::vec3 &pos, float grid_size) {
-  return glm::vec3(std::round(pos.x / grid_size) * grid_size,
-                   std::round(pos.y / grid_size) * grid_size,
-                   std::round(pos.z / grid_size) * grid_size);
-}
+
 /////////////////////////////////////////////////
-void Projector::ProjectOntoPlanes(ModelData &model_data,
-                                  const size_t rotation_intervals,
-                                  const RotationAxis rotation_axis,
-                                  const glm::vec3 &tilt_angle) const {
+void Projector::BasicProjection(ModelData &model_data,
+                                const glm::vec3 &tilt_angle,
+                                const size_t intervals,
+                                const glm::vec3 &rotation_axis) const {
 
-  // set up RotationAxis
-  glm::vec3 rotation_axis_vector(0.0f, 0.0f, 0.0f);
-  switch (rotation_axis) {
-  case RotationAxis::X_AXIS:
-    rotation_axis_vector = glm::vec3(1.0f, 0.0f, 0.0f);
-    break;
-  case RotationAxis::Y_AXIS:
-    rotation_axis_vector = glm::vec3(0.0f, 1.0f, 0.0f);
-    break;
-  case RotationAxis::Z_AXIS:
-    rotation_axis_vector = glm::vec3(0.0f, 0.0f, 1.0f);
-    break;
-  }
+  std::cout << "[DEBUG] Starting BasicProjection with intervals=" << intervals
+            << ", tilt_angle=(" << tilt_angle.x << ", " << tilt_angle.y << ", "
+            << tilt_angle.z << ")"
+            << ", rotation_axis=(" << rotation_axis.x << ", " << rotation_axis.y
+            << ", " << rotation_axis.z << ")" << std::endl;
 
-  // clear the projected data
-  model_data.projected_data.clear();
-  std::cout << "[DEBUG] Cleared projected_data.\n";
-
-  // compute center of model
-  glm::vec3 centre(0.0f);
-  for (const auto &voxel : model_data.voxels) {
-    centre += voxel.position;
-  }
-  centre /= static_cast<float>(model_data.voxels.size());
-  std::cout << "[DEBUG] Computed model centre: (" << centre.x << ", "
-            << centre.y << ", " << centre.z << ").\n";
-
-  // create a tilt matrix
-  glm::mat4 tilt_x = glm::rotate(glm::mat4(1.0f), glm::radians(tilt_angle.x),
-                                 glm::vec3(1.0f, 0.0f, 0.0f));
-  glm::mat4 tilt_y = glm::rotate(glm::mat4(1.0f), glm::radians(tilt_angle.y),
-                                 glm::vec3(0.0f, 1.0f, 0.0f));
-  glm::mat4 tilt_z = glm::rotate(glm::mat4(1.0f), glm::radians(tilt_angle.z),
-                                 glm::vec3(0.0f, 0.0f, 1.0f));
-  glm::mat4 tilt = tilt_x * tilt_y * tilt_z;
-  std::cout << "[DEBUG] Created tilt matrix.\n";
-
-  for (size_t i = rotation_intervals; i > 0; --i) {
-    // create a rotation matrix
-    float angle = static_cast<float>(i) *
-                  (360.0f / static_cast<float>(rotation_intervals));
-    glm::mat4 rotation =
-        glm::rotate(glm::mat4(1.0f), glm::radians(angle), rotation_axis_vector);
-
-    std::cout << "[DEBUG] Rotation interval " << i << ", angle: " << angle
-              << " degrees.\n";
-
-    // create an overall model matrix
-    // 1. translate to the centre of the model
-    // 2. apply rotation
-    // 3. apply tilt
-    // 4. translate away from the centre of the model
-    glm::mat4 model_matrix = glm::translate(glm::mat4(1.0f), +centre) *
-                             rotation * tilt *
-                             glm::translate(glm::mat4(1.0f), -centre);
-
-    std::cout
-        << "[DEBUG] Constructed model matrix for this rotation interval.\n";
-
-    std::vector<Voxel> rotated_data;
-    for (const auto &voxel : model_data.hollow_voxels) {
-      // apply the model matrix to each voxel
-      glm::vec4 transformed_position =
-          model_matrix * glm::vec4(voxel.position, 1.0f);
-
-      // Snap to grid!
-      glm::vec3 snapped_position =
-          quantize(glm::vec3(transformed_position), 0.1f);
-
-      // print out transformed to snapped position
-      std::cout << "[DEBUG] Transformed voxel at (" << transformed_position.x
-                << ", " << transformed_position.y << ", "
-                << transformed_position.z << ") to snapped position ("
-                << snapped_position.x << ", " << snapped_position.y << ", "
-                << snapped_position.z << ").\n";
-      rotated_data.emplace_back(
-          Voxel{glm::vec3(snapped_position), voxel.color});
+  std::vector<glm::vec3> rotation_positions;
+  if (rotation_axis.x != 0.0f) {
+    std::cout << "[DEBUG] Using X-axis rotation" << std::endl;
+    for (size_t i = 0; i < intervals; ++i) {
+      float angle =
+          static_cast<float>(i) * (360.0f / static_cast<float>(intervals));
+      rotation_positions.emplace_back(angle, 0.0f, 0.0f);
+      std::cout << "[DEBUG] Rotation position: (" << angle << ", 0, 0)"
+                << std::endl;
     }
-    std::cout << "[DEBUG] Rotated all voxels for this interval. Total: "
-              << rotated_data.size() << ".\n";
-
-    // Cull voxels that are not visible from the camera
-    CullUsingRayCasting(rotated_data, model_data, 1.0f);
+  } else if (rotation_axis.y != 0.0f) {
+    std::cout << "[DEBUG] Using Y-axis rotation" << std::endl;
+    for (size_t i = 0; i < intervals; ++i) {
+      float angle =
+          static_cast<float>(i) * (360.0f / static_cast<float>(intervals));
+      rotation_positions.emplace_back(0.0f, angle, 0.0f);
+      std::cout << "[DEBUG] Rotation position: (0, " << angle << ", 0)"
+                << std::endl;
+    }
+  } else if (rotation_axis.z != 0.0f) {
+    std::cout << "[DEBUG] Using Z-axis rotation" << std::endl;
+    for (size_t i = 0; i < intervals; ++i) {
+      float angle =
+          static_cast<float>(i) * (360.0f / static_cast<float>(intervals));
+      rotation_positions.emplace_back(0.0f, 0.0f, angle);
+      std::cout << "[DEBUG] Rotation position: (0, 0, " << angle << ")"
+                << std::endl;
+    }
+  } else {
+    std::cout << "[DEBUG] No rotation axis specified, defaulting to Y-axis"
+              << std::endl;
+    for (size_t i = 0; i < intervals; ++i) {
+      float angle =
+          static_cast<float>(i) * (360.0f / static_cast<float>(intervals));
+      rotation_positions.emplace_back(0.0f, angle, 0.0f);
+      std::cout << "[DEBUG] Rotation position: (0, " << angle << ", 0)"
+                << std::endl;
+    }
   }
-}
 
-/////////////////////////////////////////////////
-void Projector::CullUsingRayCasting(std::vector<Voxel> &rotated_data,
-                                    ModelData &model_data,
-                                    const float ray_resolution) const {
+  std::vector<glm::mat4> model_matrices =
+      GenerateModelMatrices(model_data, tilt_angle, rotation_positions);
 
-  std::cout << "[DEBUG] Starting ray casting culling.\n";
-  std::unordered_set<Voxel> kept_voxels;
+  std::cout << "[DEBUG] Generated " << model_matrices.size()
+            << " model matrices" << std::endl;
 
-  int rays_cast = 0;
-  int voxels_kept = 0;
-  size_t interactions = 0;
-  for (float x = 0.0f; x < model_data.model_size.x; x += ray_resolution) {
-    for (float y = 0.0f; y < model_data.model_size.y; y += ray_resolution) {
-      for (float z = model_data.model_size.z; z >= 0.0f; z -= ray_resolution) {
-        glm::vec3 ray_start(x, y, z);
-        ++rays_cast;
-        bool hit_voxel = false;
-        for (const auto &voxel : rotated_data) {
-          interactions++;
-          if (glm::distance(ray_start, voxel.position) < ray_resolution) {
-            if (kept_voxels.find(voxel) == kept_voxels.end()) {
-              ++voxels_kept;
-              std::cout << "[DEBUG] Ray at (" << x << ", " << y << ", " << z
-                        << ") hit voxel at (" << voxel.position.x << ", "
-                        << voxel.position.y << ", " << voxel.position.z
-                        << ").\n";
-            }
-            kept_voxels.insert(voxel); // will not insert duplicates
-            hit_voxel = true;
-            break; // stop checking further voxels in this z direction
-          }
-        }
-        if (hit_voxel)
-          break;
+  for (size_t mat_idx = 0; mat_idx < model_matrices.size(); ++mat_idx) {
+    const auto &model_matric = model_matrices[mat_idx];
+    std::cout << "[DEBUG] Processing model matrix #" << mat_idx << std::endl;
+    std::vector<Triangle> triangles = model_data.triangles;
+
+    for (size_t tri_idx = 0; tri_idx < triangles.size(); ++tri_idx) {
+      for (size_t vert_idx = 0; vert_idx < triangles[tri_idx].vertices.size();
+           ++vert_idx) {
+        glm::vec4 transformed_vertex =
+            model_matric *
+            glm::vec4(triangles[tri_idx].vertices[vert_idx], 1.0f);
+        triangles[tri_idx].vertices[vert_idx] = glm::vec3(
+            transformed_vertex.x, transformed_vertex.y, transformed_vertex.z);
       }
     }
-  }
 
-  std::cout << "[DEBUG] Ray casting complete. Rays cast: " << rays_cast
-            << ". Voxels kept: " << voxels_kept << ".\n";
-  // print out the kept voxels
-  std::cout << "[DEBUG] Kept voxels:\n";
-  for (const auto &voxel : kept_voxels) {
-    std::cout << "Voxel at (" << voxel.position.x << ", " << voxel.position.y
-              << ", " << voxel.position.z << std::endl;
-  }
-  // convert to a sf::VertexArray of points
-  sf::VertexArray points(sf::PrimitiveType::Points);
-  for (const auto &voxel : kept_voxels) {
-    points.append(sf::Vertex(sf::Vector2f(voxel.position.x, voxel.position.y),
-                             voxel.color));
-  }
-  std::cout
-      << "[DEBUG] Converted kept voxels to sf::VertexArray. Vertex count: "
-      << points.getVertexCount() << ".\n";
-  model_data.projected_data.push_back(points);
+    std::cout << "[DEBUG] Before back face culling: " << triangles.size()
+              << " triangles" << std::endl;
+    ImplementBackFaceCulling(triangles);
+    std::cout << "[DEBUG] After back face culling: " << triangles.size()
+              << " triangles" << std::endl;
 
-  // print out model size
-  std::cout << "[DEBUG] Model size: (" << model_data.model_size.x << ", "
-            << model_data.model_size.y << ", " << model_data.model_size.z
-            << ").\n";
+    sf::VertexArray projected_data = ProjectOntoVertexArray(triangles);
+    std::cout << "[DEBUG] Projected data has "
+              << projected_data.getVertexCount() << " vertices" << std::endl;
 
-  // print out interactions
-  std::cout << "[DEBUG] Total interactions: " << interactions << ".\n";
+    model_data.projected_data.push_back(projected_data);
+  }
 }
+
+/////////////////////////////////////////////////
+void Projector::FixedAngleProjection(ModelData &model_data,
+                                     const glm::vec3 &rotation) {
+
+  // treat the rotation as angles for each axis
+  // create a one time rotation matrix and apply it to all triangles
+  glm::mat4 rotation_matrix =
+      glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x),
+                  glm::vec3(1.0f, 0.0f, 0.0f)) *
+      glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y),
+                  glm::vec3(0.0f, 1.0f, 0.0f)) *
+      glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z),
+                  glm::vec3(0.0f, 0.0f, 1.0f));
+
+  std::cout << "[DEBUG] FixedAngleProjection with rotation: (" << rotation.x
+            << ", " << rotation.y << ", " << rotation.z << ")" << std::endl;
+  std::vector<Triangle> triangles = model_data.triangles;
+  for (size_t tri_idx = 0; tri_idx < triangles.size(); ++tri_idx) {
+    for (size_t vert_idx = 0; vert_idx < triangles[tri_idx].vertices.size();
+         ++vert_idx) {
+      glm::vec4 transformed_vertex =
+          rotation_matrix *
+          glm::vec4(triangles[tri_idx].vertices[vert_idx], 1.0f);
+      triangles[tri_idx].vertices[vert_idx] = glm::vec3(
+          transformed_vertex.x, transformed_vertex.y, transformed_vertex.z);
+    }
+  }
+  std::cout << "[DEBUG] Before back face culling: " << triangles.size()
+            << " triangles" << std::endl;
+  ImplementBackFaceCulling(triangles);
+  // ImplementCullingWithDirections(triangles,
+  //                                glm::vec3(rotation.x, rotation.y,
+  //                                rotation.z));
+  std::cout << "[DEBUG] After back face culling: " << triangles.size()
+            << " triangles" << std::endl;
+  sf::VertexArray projected_data = ProjectOntoVertexArray(triangles);
+
+  std::cout << "[DEBUG] Projected data has " << projected_data.getVertexCount()
+            << " vertices" << std::endl;
+  model_data.projected_data.push_back(projected_data);
+}
+/////////////////////////////////////////////////
+std::vector<glm::mat4> Projector::GenerateModelMatrices(
+    ModelData &model_data, const glm::vec3 &tilt,
+    const std::vector<glm::vec3> &rotation_positions) const {
+
+  std::vector<glm::mat4> model_matrices;
+  glm::vec3 model_size{static_cast<float>(model_data.size.x),
+                       static_cast<float>(model_data.size.y),
+                       static_cast<float>(model_data.size.z)};
+  glm::vec3 model_center = model_size * 0.5f;
+
+  glm::mat4 translate_to_origin =
+      glm::translate(glm::mat4(1.0f), -model_center);
+  glm::mat4 tilt_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(tilt.x),
+                                      glm::vec3(1.0f, 0.0f, 0.0f));
+
+  for (size_t idx = 0; idx < rotation_positions.size(); ++idx) {
+    const auto &rotation_position = rotation_positions[idx];
+    glm::mat4 rotation_matrix =
+        glm::rotate(glm::mat4(1.0f), glm::radians(rotation_position.x),
+                    glm::vec3(1.0f, 0.0f, 0.0f)) *
+        glm::rotate(glm::mat4(1.0f), glm::radians(rotation_position.y),
+                    glm::vec3(0.0f, 1.0f, 0.0f)) *
+        glm::rotate(glm::mat4(1.0f), glm::radians(rotation_position.z),
+                    glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 model_matrix =
+        rotation_matrix * tilt_matrix * translate_to_origin;
+    model_matrices.push_back(model_matrix);
+    std::cout << "[DEBUG] Generated model matrix #" << idx << std::endl;
+  }
+  return model_matrices;
+}
+
+/////////////////////////////////////////////////
+void Projector::ImplementBackFaceCulling(
+    std::vector<Triangle> &triangles) const {
+
+  size_t culled_count = 0;
+  for (auto it = triangles.begin(); it != triangles.end();) {
+    const auto &v0 = it->vertices[0];
+    const auto &v1 = it->vertices[1];
+    const auto &v2 = it->vertices[2];
+
+    glm::vec3 edge1 = v1 - v0;
+    glm::vec3 edge2 = v2 - v0;
+    glm::vec3 normal = glm::normalize(glm::cross(edge1, edge2));
+
+    // Debug print normal
+
+    if (normal.z < 0.0f) {
+      it = triangles.erase(it);
+      ++culled_count;
+      std::cout << "[DEBUG] Culled a triangle (normal.z < 0)" << std::endl;
+    } else {
+      ++it; // Only increment if not erasing!
+    }
+  }
+  std::cout << "[DEBUG] Culled total " << culled_count << " triangles"
+            << std::endl;
+}
+
+/////////////////////////////////////////////////
+void Projector::ImplementCullingWithDirections(
+    std::vector<Triangle> &triangles,
+    const glm::vec3 &rotation_direction) const {
+  size_t culled_count = 0;
+  for (auto it = triangles.begin(); it != triangles.end();) {
+
+    switch (it->direction) {
+    case (Direction::X_POSITIVE):
+      if (rotation_direction.x < 0.0f) {
+        it = triangles.erase(it);
+        ++culled_count;
+        std::cout << "[DEBUG] Culled a triangle (X_POSITIVE direction)"
+                  << std::endl;
+      } else {
+        ++it; // Only increment if not erasing!
+      }
+      break;
+    case (Direction::X_NEGATIVE):
+      if (rotation_direction.x > 0.0f) {
+        it = triangles.erase(it);
+        ++culled_count;
+        std::cout << "[DEBUG] Culled a triangle (X_NEGATIVE direction)"
+                  << std::endl;
+      } else {
+        ++it; // Only increment if not erasing!
+      }
+      break;
+    case (Direction::Y_POSITIVE):
+      if (rotation_direction.y < 0.0f) {
+        it = triangles.erase(it);
+        ++culled_count;
+        std::cout << "[DEBUG] Culled a triangle (Y_POSITIVE direction)"
+                  << std::endl;
+      } else {
+        ++it; // Only increment if not erasing!
+      }
+      break;
+    case (Direction::Y_NEGATIVE):
+      if (rotation_direction.y > 0.0f) {
+        it = triangles.erase(it);
+        ++culled_count;
+        std::cout << "[DEBUG] Culled a triangle (Y_NEGATIVE direction)"
+                  << std::endl;
+      } else {
+        ++it; // Only increment if not erasing!
+      }
+      break;
+    case (Direction::Z_POSITIVE):
+      if (rotation_direction.z < 0.0f) {
+        it = triangles.erase(it);
+        ++culled_count;
+        std::cout << "[DEBUG] Culled a triangle (Z_POSITIVE direction)"
+                  << std::endl;
+      } else {
+        ++it; // Only increment if not erasing!
+      }
+      break;
+    case (Direction::Z_NEGATIVE):
+      if (rotation_direction.z > 0.0f) {
+        it = triangles.erase(it);
+        ++culled_count;
+        std::cout << "[DEBUG] Culled a triangle (Z_NEGATIVE direction)"
+                  << std::endl;
+      } else {
+        ++it; // Only increment if not erasing!
+      }
+      break;
+    default:
+      break;
+    }
+  }
+
+  std::cout << "[DEBUG] Culled total " << culled_count << " triangles"
+            << std::endl;
+}
+
+/////////////////////////////////////////////////
+sf::VertexArray Projector::ProjectOntoVertexArray(
+    const std::vector<Triangle> &triangles) const {
+
+  sf::VertexArray result(sf::PrimitiveType::Triangles);
+
+  for (size_t tri_idx = 0; tri_idx < triangles.size(); ++tri_idx) {
+    const auto &triangle = triangles[tri_idx];
+    for (size_t vert_idx = 0; vert_idx < triangle.vertices.size(); ++vert_idx) {
+      result.append(sf::Vertex(sf::Vector2f(triangle.vertices[vert_idx].x,
+                                            triangle.vertices[vert_idx].y),
+                               triangle.color));
+    }
+  }
+  return result;
+}
+
 } // namespace hollow_lantern

@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 /// @file
 /// @brief Implementation of the VoxReader class
 /////////////////////////////////////////////////
@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <ostream>
 
 namespace hollow_lantern {
 
@@ -73,47 +74,74 @@ VoxReader::ProvideVoxData(std::string model_name, bool testing) {
   }
 
   if (!CheckVoxFileExists(model_path)) {
+    std::cerr << "[DEBUG] File not found: " << model_path << std::endl;
     return std::unexpected(
         format("Vox file '{}.vox' does not exist.", model_name));
   }
 
-  // Use filesystem to get file size
-  std::cout << "File size (filesystem): "
+  std::cout << "[DEBUG] File size (filesystem): "
             << std::filesystem::file_size(model_path) << " bytes." << std::endl;
 
   // Open a fresh stream for each function to avoid bad state
   {
     std::ifstream file(model_path, std::ios::binary);
+    if (!file) {
+      std::cerr << "[DEBUG] Could not open file for header check." << std::endl;
+      return std::unexpected(
+          format("Failed to open file '{}.vox'.", model_name));
+    }
     if (!CheckVoxHeader(file)) {
+      std::cerr << "[DEBUG] Header check failed." << std::endl;
       return std::unexpected(
           format("Vox file '{}.vox' has an invalid header.", model_name));
     }
   }
   {
     std::ifstream file(model_path, std::ios::binary);
+    if (!file) {
+      std::cerr << "[DEBUG] Could not open file for MAIN chunk check."
+                << std::endl;
+      return std::unexpected(
+          format("Failed to open file '{}.vox'.", model_name));
+    }
     if (!CheckMainChunk(file)) {
+      std::cerr << "[DEBUG] MAIN chunk not found." << std::endl;
       return std::unexpected(format(
           "Vox file '{}.vox' does not contain a MAIN chunk.", model_name));
     }
   }
 
   std::ifstream file(model_path, std::ios::binary);
+  if (!file) {
+    std::cerr << "[DEBUG] Could not open file for PACK chunk check."
+              << std::endl;
+    return std::unexpected(format("Failed to open file '{}.vox'.", model_name));
+  }
   if (CheckPackChunk(file)) {
+    std::cerr << "[DEBUG] Found PACK chunk (multiple models not supported)."
+              << std::endl;
     return std::unexpected(
         format("Vox file '{}.vox' contains a PACK chunk, multiple models are "
                "not currently supported.",
                model_name));
   }
 
-  ModelData vox_data;
-  vox_data.name = model_name;
+  ModelData model_data;
+  model_data.name = model_name;
   {
     std::ifstream file(model_path, std::ios::binary);
-    ExtractVoxels(file, vox_data);
+    if (!file) {
+      std::cerr << "[DEBUG] Could not open file for voxel extraction."
+                << std::endl;
+      return std::unexpected(
+          format("Failed to open file '{}.vox'.", model_name));
+    }
+    ExtractVoxels(file, model_data);
   }
-  std::cout << "VoxData voxels size: " << vox_data.voxels.size() << std::endl;
+  std::cout << "[DEBUG] Model size: " << model_data.size.x << "x"
+            << model_data.size.y << "x" << model_data.size.z << std::endl;
 
-  return vox_data;
+  return model_data;
 }
 
 /////////////////////////////////////////////////
@@ -126,6 +154,8 @@ bool VoxReader::CheckVoxFileExists(
 uint8_t VoxReader::ReadU8(std::ifstream &file) const {
   uint8_t value = 0;
   file.read(reinterpret_cast<char *>(&value), sizeof(value));
+  if (!file)
+    std::cerr << "[DEBUG] ReadU8 failed at pos " << file.tellg() << std::endl;
   return value;
 }
 
@@ -133,6 +163,8 @@ uint8_t VoxReader::ReadU8(std::ifstream &file) const {
 uint32_t VoxReader::ReadU32(std::ifstream &file) const {
   uint32_t value = 0;
   file.read(reinterpret_cast<char *>(&value), sizeof(value));
+  if (!file)
+    std::cerr << "[DEBUG] ReadU32 failed at pos " << file.tellg() << std::endl;
   return value;
 }
 
@@ -140,7 +172,9 @@ uint32_t VoxReader::ReadU32(std::ifstream &file) const {
 bool VoxReader::CheckVoxHeader(std::ifstream &file) const {
   char header[4] = {};
   file.read(header, 4);
-  std::cout << "Header: " << header << std::endl;
+  if (!file)
+    std::cerr << "[DEBUG] Read header failed." << std::endl;
+  std::cout << "[DEBUG] Header: " << header << std::endl;
   return (std::strncmp(header, "VOX ", 4) == 0);
 }
 
@@ -149,6 +183,10 @@ bool VoxReader::CheckPackChunk(std::ifstream &file) const {
   file.seekg(8, std::ios::beg);
   char chunk_ID[4];
   while (file.read(chunk_ID, 4)) {
+    if (!file) {
+      std::cerr << "[DEBUG] PACK: Failed reading chunk_ID." << std::endl;
+      break;
+    }
     uint32_t chunk_size = ReadU32(file);
     uint32_t child_chunks = ReadU32(file);
     if (std::strncmp(chunk_ID, "PACK", 4) == 0) {
@@ -164,6 +202,10 @@ bool VoxReader::CheckMainChunk(std::ifstream &file) const {
   file.seekg(8, std::ios::beg);
   char chunk_ID[4];
   while (file.read(chunk_ID, 4)) {
+    if (!file) {
+      std::cerr << "[DEBUG] MAIN: Failed reading chunk_ID." << std::endl;
+      break;
+    }
     uint32_t chunk_size = ReadU32(file);
     uint32_t child_chunks = ReadU32(file);
     if (std::strncmp(chunk_ID, "MAIN", 4) == 0) {
@@ -175,7 +217,8 @@ bool VoxReader::CheckMainChunk(std::ifstream &file) const {
 }
 
 /////////////////////////////////////////////////
-void VoxReader::ExtractVoxels(std::ifstream &file, ModelData &vox_data) const {
+void VoxReader::ExtractVoxels(std::ifstream &file,
+                              ModelData &model_data) const {
   // Start with default palette
   uint32_t palette[256];
   std::memcpy(palette, default_palette, sizeof(palette));
@@ -183,15 +226,21 @@ void VoxReader::ExtractVoxels(std::ifstream &file, ModelData &vox_data) const {
 
   file.seekg(8, std::ios::beg);
 
-  // Find MAIN chunk
+  // Find RGBA chunk
   char chunk_ID[4];
   while (file.read(chunk_ID, 4)) {
+    if (!file) {
+      std::cerr << "[DEBUG] Failed reading chunk_ID for RGBA scan."
+                << std::endl;
+      break;
+    }
     uint32_t chunk_size = ReadU32(file);
     uint32_t child_chunks = ReadU32(file);
 
     if (std::strncmp(chunk_ID, "RGBA", 4) == 0) {
       found_rgba = true;
-      std::cout << "Found RGBA chunk, reading palette colors..." << std::endl;
+      std::cout << "[DEBUG] Found RGBA chunk, reading palette colors..."
+                << std::endl;
       // As per spec, color [0-254] are mapped to palette[1-255]
       for (int i = 1; i <= 255; ++i) {
         uint8_t r = ReadU8(file);
@@ -200,61 +249,102 @@ void VoxReader::ExtractVoxels(std::ifstream &file, ModelData &vox_data) const {
         uint8_t a = ReadU8(file);
         palette[i] = (a << 24) | (b << 16) | (g << 8) | r;
       }
-      // If the RGBA chunk is less than 256 colors, fill the rest with default
       break; // after RGBA, go back to chunk scan for XYZI
     } else {
       file.seekg(chunk_size + child_chunks, std::ios::cur);
     }
   }
-  // Now find MAIN chunk
 
+  // Now find MAIN chunk
   file.clear();
   file.seekg(8, std::ios::beg);
   while (file.read(chunk_ID, 4)) {
+    if (!file) {
+      std::cerr << "[DEBUG] Failed reading chunk_ID for MAIN scan."
+                << std::endl;
+      break;
+    }
     uint32_t chunk_size = ReadU32(file);
     uint32_t child_chunks = ReadU32(file);
     if (std::strncmp(chunk_ID, "MAIN", 4) == 0) {
-      std::cout << "Found MAIN chunk." << std::endl;
+      std::cout << "[DEBUG] Found MAIN chunk." << std::endl;
       break; // After MAIN, go back to chunk scan for XYZI
     } else {
       file.seekg(chunk_size + child_chunks, std::ios::cur);
     }
   }
 
-  // Now MAIN: readl all children
+  // Now MAIN: read all children
   while (file.read(chunk_ID, 4)) {
+    if (!file) {
+      std::cerr << "[DEBUG] Failed reading chunk_ID for children scan."
+                << std::endl;
+      break;
+    }
     uint32_t chunk_size = ReadU32(file);
     uint32_t child_chunks = ReadU32(file);
     std::streampos next_chunk = file.tellg();
     next_chunk += chunk_size;
-    // add in size of the model
+
     if (std::strncmp(chunk_ID, "SIZE", 4) == 0) {
       uint32_t x = ReadU32(file);
       uint32_t y = ReadU32(file);
       uint32_t z = ReadU32(file);
-      vox_data.model_size = glm::vec3(
-          static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
-      std::cout << "Found SIZE chunk: " << x << "x" << y << "x" << z
+      model_data.size = sf::Vector3i(x, y, z);
+
+      // Resize voxel_data to match the model size
+      model_data.voxel_data.resize(x);
+      for (int i = 0; i < x; ++i) {
+        model_data.voxel_data[i].resize(y);
+        for (int j = 0; j < y; ++j) {
+          model_data.voxel_data[i][j].resize(z);
+        }
+      }
+      std::cout << "[DEBUG] Found SIZE chunk: " << x << "x" << y << "x" << z
                 << std::endl;
 
     } else if (std::strncmp(chunk_ID, "XYZI", 4) == 0) {
       uint32_t num_voxels = ReadU32(file);
-      std::cout << "Found XYZI chunk with " << num_voxels << " voxels."
+      std::cout << "[DEBUG] Found XYZI chunk with " << num_voxels << " voxels."
                 << std::endl;
       for (uint32_t i = 0; i < num_voxels; ++i) {
-        float x = ReadU8(file);
-        float y = ReadU8(file);
-        float z = ReadU8(file);
+        uint32_t x = ReadU8(file);
+        uint32_t y = ReadU8(file);
+        uint32_t z = ReadU8(file);
+
+        // [DEBUG] print voxel indices before accessing array
+        std::cout << "[DEBUG] Voxel indices: (" << x << "," << y << "," << z
+                  << ")" << std::endl;
+
         uint8_t color_index = ReadU8(file);
-        if (color_index > 255)
-          color_index = 0; // Clamp
-        uint32_t color32 = palette[color_index];
-        sf::Color color(color32 & 0xFF,         // Red
-                        (color32 >> 8) & 0xFF,  // Green
-                        (color32 >> 16) & 0xFF, // Blue
-                        (color32 >> 24) & 0xFF  // Alpha
-        );
-        vox_data.voxels.emplace_back(glm::vec3(x, y, z), color);
+
+        if (color_index > 255) {
+          std::cerr << "[DEBUG] Color index out of bounds: " << (int)color_index
+                    << std::endl;
+          color_index = 0;
+        }
+
+        std::uint32_t color32 = palette[color_index];
+        sf::Color color(color32 & 0xFF, (color32 >> 8) & 0xFF,
+                        (color32 >> 16) & 0xFF, (color32 >> 24) & 0xFF);
+
+        // [DEBUG] check bounds before assignment
+        if (x >= model_data.size.x || y >= model_data.size.y ||
+            z >= model_data.size.z) {
+          std::cerr << "[DEBUG] Voxel position (" << x << "," << y << "," << z
+                    << ") out of bounds!" << std::endl;
+          continue; // skip out-of-bounds
+        }
+        std::cout << "[DEBUG] Assigning color: " << std::hex << color32
+                  << std::dec << " to voxel at (" << x << ", " << y << ", " << z
+                  << ")" << std::endl;
+        model_data.voxel_data[x][y][z].color = color;
+        std::cout << "assigning visible flag to voxel at (" << x << ", " << y
+                  << ", " << z << ")" << std::endl;
+        model_data.voxel_data[x][y][z].is_visible = true;
+        std::cout << "[DEBUG] Voxel at (" << x << ", " << y << ", " << z
+                  << ") with color: " << std::hex << color32 << std::dec
+                  << std::endl;
       }
       break;
     } else {

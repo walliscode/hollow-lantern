@@ -1,6 +1,6 @@
-Test directory paths in configuration 116 1.32725e-05
-VoxReader provides VoxData object 71 6.21983e-05
-VoxManipulator provides VoxData object 44 0.00110135
+Test directory paths in configuration 129 1.05214e-05
+VoxReader provides VoxData object 80 9.18487e-05
+VoxManipulator provides VoxData object 49 0.000122407
 Projector Tests 1 0.00272263
-Projector projects 3D models onto 2D planes 6 0.00444179
+Projector projects 3D models onto 2D planes 9 0.000408785
 ---

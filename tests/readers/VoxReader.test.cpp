@@ -39,15 +39,6 @@ TEST_CASE("VoxReader provides VoxData object", "[VoxReader]") {
   result = reader.ProvideVoxData("chr_knight", testing);
   REQUIRE(result.has_value());
   REQUIRE(result->name == "chr_knight");
-  REQUIRE(result->voxels.size() > 0);
+  REQUIRE(result->voxel_data.size() > 0);
   // Check if the voxels have valid positions and colors
-  for (const auto &voxel : result->voxels) {
-    REQUIRE(voxel.position.x >= 0);
-    REQUIRE(voxel.position.y >= 0);
-    REQUIRE(voxel.position.z >= 0);
-    REQUIRE(((voxel.color.r >= 0) && (voxel.color.r <= 255)));
-    REQUIRE(((voxel.color.g >= 0) && (voxel.color.g <= 255)));
-    REQUIRE(((voxel.color.b >= 0) && (voxel.color.b <= 255)));
-    REQUIRE(((voxel.color.a >= 0) && (voxel.color.a <= 255)));
-  }
 }

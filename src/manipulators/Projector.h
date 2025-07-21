@@ -14,32 +14,41 @@
 
 #include "ModelData.h"
 #include <SFML/Graphics/VertexArray.hpp>
-
+#include <glm/mat4x4.hpp>
+#include <vector>
 namespace hollow_lantern {
 
-enum class RotationAxis { X_AXIS, Y_AXIS, Z_AXIS };
-/////////////////////////////////////////////////
-/// @class Projector
-/// @brief Responsible for projecting 3D models onto 2D planes
-///
-/////////////////////////////////////////////////
 class Projector {
 
 private:
   /////////////////////////////////////////////////
-  /// @brief Only keep voxels that are visible from the camera
+  /// @brief Generate model matrices for all rotation specified
   ///
-  /// This will step through intervals of the x,y and z axis using the ray
-  /// resolution. We start the x and y from 0.0 and Z from the model's maximum Z
-  /// value. Once a voxel is hit in the z direction we keep it and move on to
-  /// the next voxel in the x and y direction. This will ensure that we only
-  /// keep voxels that are visible from the camera.
-  ///
-  /// @param model_data instance of ModelData containing the 3D model data
+  /// @param model_data ModelData instance containing the model to project
+  /// @param tilt Tilt vector specifying the tilt of the model
+  /// @param rotation_positions Vector of rotation positions
   /////////////////////////////////////////////////
-  void CullUsingRayCasting(std::vector<Voxel> &rotated_data,
-                           ModelData &model_data,
-                           const float ray_resolution = 1.0f) const;
+  std::vector<glm::mat4>
+  GenerateModelMatrices(ModelData &model_data, const glm::vec3 &tilt,
+                        const std::vector<glm::vec3> &rotation_positions) const;
+
+  /////////////////////////////////////////////////
+  /// @brief Culls rotated triangles that are not visible
+  ///
+  /// @param triangles Vector of rotated triangles to cull
+  /////////////////////////////////////////////////
+  void ImplementBackFaceCulling(std::vector<Triangle> &triangles) const;
+
+  void
+  ImplementCullingWithDirections(std::vector<Triangle> &triangles,
+                                 const glm::vec3 &rotation_direction) const;
+  /////////////////////////////////////////////////
+  /// @brief Turns 3D triangles into a 2D vertex array of type triangles
+  ///
+  /// @param triangles Triangles to project onto a vertex array
+  /////////////////////////////////////////////////
+  sf::VertexArray
+  ProjectOntoVertexArray(const std::vector<Triangle> &triangles) const;
 
 public:
   /////////////////////////////////////////////////
@@ -48,15 +57,17 @@ public:
   Projector() = default;
 
   /////////////////////////////////////////////////
-  /// @brief Provide a set of 2D projections from 3D model data
+  /// @brief Generate vertex arrays for intervals of rotations
   ///
-  /// @param model_data 3D model data
-  /// @param rotation_intervals How many intervals to rotate the model
-  /// @param rotation_axis Axis to rotate around.
-  /// @param tilt_angle Initial tilt angle of the model before rotation
+  /// The model is tilted and then rotated about an axis at the intervals
+  /// specified. A snapshot of the model is taken at each interval.
+  ///
+  /// @param model_data ModelData instance containing the model to project
   /////////////////////////////////////////////////
-  void ProjectOntoPlanes(ModelData &model_data, const size_t rotation_intervals,
-                         const RotationAxis rotation_axis,
-                         const glm::vec3 &tilt_angle) const;
+  void BasicProjection(ModelData &model_data, const glm::vec3 &tilt_angle,
+                       const size_t intervals,
+                       const glm::vec3 &rotation_axis) const;
+
+  void FixedAngleProjection(ModelData &model_data, const glm::vec3 &rotation);
 };
 } // namespace hollow_lantern
