@@ -17,7 +17,7 @@ void VoxManipulator::HollowAndMesh(ModelData &model_data) {
   HollowOut(model_data);
 
   // Step 2: Create masks based on the hollowed voxel data
-  // CreateMasks(model_data);
+  CreateMasks(model_data);
 
   // CreateTrianglesFromMask(model_data);
   // Step 3: Generate triangles from the masks
@@ -120,23 +120,11 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
         for (size_t y = 0; y < model_data.size.y; ++y) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
-              // we need to check every voxel that could cover it
-              bool is_masked_voxel = false;
-              for (size_t x_check = x; x_check < model_data.size.x; ++x_check) {
-                // if current position or end position
-                if (x_check == x)
-                  continue;
-                if (voxel_data[x_check][y][z].is_visible) {
-                  is_masked_voxel = true;
-                  break;
-                }
-              }
+              // if at end of model or next voxel is visible (then it is masked)
+              if (x == model_data.size.x - 1 ||
+                  !voxel_data[x + 1][y][z].is_visible) {
 
-              if (!is_masked_voxel) {
                 mask.data[x][y][z] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask data at (" << x << ", " << y << ", "
-                          << z << ") set to color: "
-                          << voxel_data[x][y][z].color.toInteger() << std::endl;
               } else {
                 mask.data[x][y][z] = std::nullopt;
               }
@@ -151,26 +139,13 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
     case Direction::X_NEGATIVE: {
       // start from the other end of the model
       // X_NEGATIVE: we look at each x slice and evaluate y,z
-      for (size_t x = model_data.size.x - 1; x < model_data.size.x; --x) {
+      for (int x = model_data.size.x - 1; x >= 0; --x) {
         for (size_t y = 0; y < model_data.size.y; ++y) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
-              // we need to check every voxel that could cover it
-              bool is_masked_voxel = false;
-              for (size_t x_check = x; x_check >= 0; --x_check) {
-                // if current position or end position
-                if (x_check == x)
-                  continue;
-                if (voxel_data[x_check][y][z].is_visible) {
-                  is_masked_voxel = true;
-                  break;
-                }
-              }
-              if (!is_masked_voxel) {
+              if (x == 0 || !voxel_data[x - 1][y][z].is_visible) {
                 mask.data[x][y][z] = voxel_data[x][y][z].color;
-                std::cout << "[DEBUG] Mask data at (" << x << ", " << y << ", "
-                          << z << ") set to color: "
-                          << voxel_data[x][y][z].color.toInteger() << std::endl;
+
               } else {
                 mask.data[x][y][z] = std::nullopt;
               }
@@ -180,6 +155,7 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
           }
         }
       }
+      break;
     }
     case Direction::Y_POSITIVE: {
       // Y_POSITIVE: we look at each y slice and evaluate x,z
@@ -203,7 +179,7 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
     }
     case Direction::Y_NEGATIVE: {
       // Y_NEGATIVE: we look at each y slice and evaluate x,z
-      for (size_t y = 0; y < model_data.size.y; ++y) {
+      for (int y = model_data.size.y - 1; y >= 0; --y) {
         for (size_t x = 0; x < model_data.size.x; ++x) {
           for (size_t z = 0; z < model_data.size.z; ++z) {
             if (voxel_data[x][y][z].is_visible) {
@@ -242,7 +218,7 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
     }
     case Direction::Z_NEGATIVE: {
       // Z_NEGATIVE: we look at each z slice and evaluate x,y
-      for (size_t z = 0; z < model_data.size.z; ++z) {
+      for (int z = model_data.size.z - 1; z >= 0; --z) {
         for (size_t x = 0; x < model_data.size.x; ++x) {
           for (size_t y = 0; y < model_data.size.y; ++y) {
             if (voxel_data[x][y][z].is_visible) {
