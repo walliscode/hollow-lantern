@@ -246,117 +246,159 @@ void VoxManipulator::CreateMasks(ModelData &model_data) {
 
 /////////////////////////////////////////////////
 void VoxManipulator::CreateTrianglesFromMask(ModelData &model_data) {
-
   std::cout << "[DEBUG] Starting CreateTrianglesFromMask()" << std::endl;
-  // clear previous triangles (if any)
   model_data.triangles.clear();
 
-  // the mask will have x,y and z in any order we will call them dimension_one
-  // e.t.c. iterate over each mask and create triangles from voxel data
   for (const auto &mask : model_data.masks) {
     std::cout << "[DEBUG] Processing mask for direction "
               << static_cast<int>(mask.direction) << std::endl;
-    // Iterate over the mask data
-    for (size_t dim1 = 0; dim1 < mask.data.size(); ++dim1) {
-      for (size_t dim2 = 0; dim2 < mask.data[dim1].size(); ++dim2) {
-        for (size_t dim3 = 0; dim3 < mask.data[dim1][dim2].size(); ++dim3) {
 
-          // check if the voxel has been included here
-          if (mask.data[dim1][dim2][dim3].has_value()) {
-            sf::Color color = mask.data[dim1][dim2][dim3].value();
-            glm::vec3 vertex_position;
-
-            // create two Triangle objects for each voxel
-            Triangle triangle1, triangle2;
-
-            // Determine vertex position based on direction as we are drawing
-            // triangles on sides of a cube
-            switch (mask.direction) {
-
-              // positive directions are the front of the cube so will need
-              // shifting the slice dimension by 1
-              // negative directions are the back of the cube so will not need
-              // shifting the slice dimension
-            case Direction::X_POSITIVE:
-              triangle1 = Triangle(glm::vec3(dim1 + 1.0f, dim2, dim3),     // v0
-                                   glm::vec3(dim1 + 1.0f, dim2 + 1, dim3), // v1
-                                   glm::vec3(dim1 + 1.0f, dim2, dim3 + 1), // v2
-                                   color, mask.direction);
-
-              triangle2 =
-                  Triangle(glm::vec3(dim1 + 1.0f, dim2 + 1, dim3),     // v2
-                           glm::vec3(dim1 + 1.0f, dim2 + 1, dim3 + 1), // v3
-                           glm::vec3(dim1 + 1.0f, dim2, dim3 + 1),     // v4
-                           color, mask.direction);
-
-              break;
-            case Direction::X_NEGATIVE:
-              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3),     // v0
-                                   glm::vec3(dim1, dim2 + 1, dim3), // v1
-                                   glm::vec3(dim1, dim2, dim3 + 1), // v2
-                                   color, mask.direction);
-              triangle2 = Triangle(glm::vec3(dim1, dim2 + 1, dim3),     // v2
-                                   glm::vec3(dim1, dim2 + 1, dim3 + 1), // v3
-                                   glm::vec3(dim1, dim2, dim3 + 1),     // v4
-                                   color, mask.direction);
-              break;
-            case Direction::Y_POSITIVE:
-              triangle1 = Triangle(glm::vec3(dim1, dim2 + 1.0f, dim3),     // v0
-                                   glm::vec3(dim1 + 1, dim2 + 1.0f, dim3), // v1
-                                   glm::vec3(dim1, dim2 + 1.0f, dim3 + 1), // v2
-                                   color, mask.direction);
-              triangle2 =
-                  Triangle(glm::vec3(dim1 + 1, dim2 + 1.0f, dim3),     // v2
-                           glm::vec3(dim1 + 1, dim2 + 1.0f, dim3 + 1), // v3
-                           glm::vec3(dim1, dim2 + 1.0f, dim3 + 1),     // v4
-                           color, mask.direction);
-
-              break;
-            case Direction::Y_NEGATIVE:
-              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3),     // v0
-                                   glm::vec3(dim1 + 1, dim2, dim3), // v1
-                                   glm::vec3(dim1, dim2, dim3 + 1), // v2
-                                   color, mask.direction);
-              triangle2 = Triangle(glm::vec3(dim1 + 1, dim2, dim3),     // v2
-                                   glm::vec3(dim1 + 1, dim2, dim3 + 1), // v3
-                                   glm::vec3(dim1, dim2, dim3 + 1),     // v4
-                                   color, mask.direction);
-
-              break;
-            case Direction::Z_POSITIVE:
-              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3 + 1.0f),     // v0
-                                   glm::vec3(dim1 + 1, dim2, dim3 + 1.0f), // v1
-                                   glm::vec3(dim1, dim2 + 1, dim3 + 1.0f), // v2
-                                   color, mask.direction);
-
-              triangle2 =
-                  Triangle(glm::vec3(dim1 + 1, dim2, dim3 + 1.0f),     // v2
-                           glm::vec3(dim1 + 1, dim2 + 1, dim3 + 1.0f), // v3
-                           glm::vec3(dim1, dim2 + 1, dim3 + 1.0f),     // v4
-                           color, mask.direction);
-              break;
-
-            case Direction::Z_NEGATIVE:
-              triangle1 = Triangle(glm::vec3(dim1, dim2, dim3),     // v0
-                                   glm::vec3(dim1 + 1, dim2, dim3), // v1
-                                   glm::vec3(dim1, dim2 + 1, dim3), // v2
-                                   color, mask.direction);
-              triangle2 = Triangle(glm::vec3(dim1 + 1, dim2, dim3),     // v2
-                                   glm::vec3(dim1 + 1, dim2 + 1, dim3), // v3
-                                   glm::vec3(dim1, dim2 + 1, dim3),     // v4
-                                   color, mask.direction);
-              break;
-            default:
-              std::cout << "[DEBUG] Unknown mask direction: "
-                        << static_cast<int>(mask.direction) << std::endl;
-              continue;
+    switch (mask.direction) {
+    case Direction::X_POSITIVE: {
+      // mask[x][y][z], face at (x+1, y, z), varying y, z
+      for (size_t x = 0; x < mask.data.size(); ++x) {
+        for (size_t y = 0; y < mask.data[x].size(); ++y) {
+          for (size_t z = 0; z < mask.data[x][y].size(); ++z) {
+            if (mask.data[x][y][z].has_value()) {
+              sf::Color color = mask.data[x][y][z].value();
+              float xf = static_cast<float>(x + 1);
+              float yf = static_cast<float>(y);
+              float zf = static_cast<float>(z);
+              // CCW winding for +X face
+              Triangle t1(glm::vec3(xf, yf, zf), glm::vec3(xf, yf + 1, zf),
+                          glm::vec3(xf, yf, zf + 1), color, mask.direction);
+              Triangle t2(glm::vec3(xf, yf + 1, zf),
+                          glm::vec3(xf, yf + 1, zf + 1),
+                          glm::vec3(xf, yf, zf + 1), color, mask.direction);
+              model_data.triangles.emplace_back(t1);
+              model_data.triangles.emplace_back(t2);
             }
-            // Create a triangle from the vertex position and color
-            model_data.triangles.emplace_back(triangle1);
-            model_data.triangles.emplace_back(triangle2);
           }
         }
       }
+      break;
+    }
+    case Direction::X_NEGATIVE: {
+      // mask[x][y][z], face at (x, y, z), varying y, z
+      for (size_t x = 0; x < mask.data.size(); ++x) {
+        for (size_t y = 0; y < mask.data[x].size(); ++y) {
+          for (size_t z = 0; z < mask.data[x][y].size(); ++z) {
+            if (mask.data[x][y][z].has_value()) {
+              sf::Color color = mask.data[x][y][z].value();
+              float xf = static_cast<float>(x);
+              float yf = static_cast<float>(y);
+              float zf = static_cast<float>(z);
+              // CCW winding for -X face
+              Triangle t1(glm::vec3(xf, yf, zf), glm::vec3(xf, yf, zf + 1),
+                          glm::vec3(xf, yf + 1, zf), color, mask.direction);
+              Triangle t2(glm::vec3(xf, yf + 1, zf), glm::vec3(xf, yf, zf + 1),
+                          glm::vec3(xf, yf + 1, zf + 1), color, mask.direction);
+              model_data.triangles.emplace_back(t1);
+              model_data.triangles.emplace_back(t2);
+            }
+          }
+        }
+      }
+      break;
+    }
+    case Direction::Y_POSITIVE: {
+      // mask[y][z][x], face at (x, y+1, z), varying x, z
+      for (size_t y = 0; y < mask.data.size(); ++y) {
+        for (size_t z = 0; z < mask.data[y].size(); ++z) {
+          for (size_t x = 0; x < mask.data[y][z].size(); ++x) {
+            if (mask.data[y][z][x].has_value()) {
+              sf::Color color = mask.data[y][z][x].value();
+              float xf = static_cast<float>(x);
+              float yf = static_cast<float>(y + 1);
+              float zf = static_cast<float>(z);
+              // CCW winding for +Y face
+              Triangle t1(glm::vec3(xf, yf, zf), glm::vec3(xf + 1, yf, zf),
+                          glm::vec3(xf, yf, zf + 1), color, mask.direction);
+              Triangle t2(glm::vec3(xf + 1, yf, zf),
+                          glm::vec3(xf + 1, yf, zf + 1),
+                          glm::vec3(xf, yf, zf + 1), color, mask.direction);
+              model_data.triangles.emplace_back(t1);
+              model_data.triangles.emplace_back(t2);
+            }
+          }
+        }
+      }
+      break;
+    }
+    case Direction::Y_NEGATIVE: {
+      // mask[y][z][x], face at (x, y, z), varying x, z
+      for (size_t y = 0; y < mask.data.size(); ++y) {
+        for (size_t z = 0; z < mask.data[y].size(); ++z) {
+          for (size_t x = 0; x < mask.data[y][z].size(); ++x) {
+            if (mask.data[y][z][x].has_value()) {
+              sf::Color color = mask.data[y][z][x].value();
+              float xf = static_cast<float>(x);
+              float yf = static_cast<float>(y);
+              float zf = static_cast<float>(z);
+              // CCW winding for -Y face
+              Triangle t1(glm::vec3(xf, yf, zf), glm::vec3(xf, yf, zf + 1),
+                          glm::vec3(xf + 1, yf, zf), color, mask.direction);
+              Triangle t2(glm::vec3(xf + 1, yf, zf), glm::vec3(xf, yf, zf + 1),
+                          glm::vec3(xf + 1, yf, zf + 1), color, mask.direction);
+              model_data.triangles.emplace_back(t1);
+              model_data.triangles.emplace_back(t2);
+            }
+          }
+        }
+      }
+      break;
+    }
+    case Direction::Z_POSITIVE: {
+      // mask[z][x][y], face at (x, y, z+1), varying x, y
+      for (size_t z = 0; z < mask.data.size(); ++z) {
+        for (size_t x = 0; x < mask.data[z].size(); ++x) {
+          for (size_t y = 0; y < mask.data[z][x].size(); ++y) {
+            if (mask.data[z][x][y].has_value()) {
+              sf::Color color = mask.data[z][x][y].value();
+              float xf = static_cast<float>(x);
+              float yf = static_cast<float>(y);
+              float zf = static_cast<float>(z + 1);
+              // CCW winding for +Z face
+              Triangle t1(glm::vec3(xf, yf, zf), glm::vec3(xf + 1, yf, zf),
+                          glm::vec3(xf, yf + 1, zf), color, mask.direction);
+              Triangle t2(glm::vec3(xf + 1, yf, zf),
+                          glm::vec3(xf + 1, yf + 1, zf),
+                          glm::vec3(xf, yf + 1, zf), color, mask.direction);
+              model_data.triangles.emplace_back(t1);
+              model_data.triangles.emplace_back(t2);
+            }
+          }
+        }
+      }
+      break;
+    }
+    case Direction::Z_NEGATIVE: {
+      // mask[z][x][y], face at (x, y, z), varying x, y
+      for (size_t z = 0; z < mask.data.size(); ++z) {
+        for (size_t x = 0; x < mask.data[z].size(); ++x) {
+          for (size_t y = 0; y < mask.data[z][x].size(); ++y) {
+            if (mask.data[z][x][y].has_value()) {
+              sf::Color color = mask.data[z][x][y].value();
+              float xf = static_cast<float>(x);
+              float yf = static_cast<float>(y);
+              float zf = static_cast<float>(z);
+              // CCW winding for -Z face (front, visible by default)
+              Triangle t1(glm::vec3(xf, yf, zf), glm::vec3(xf, yf + 1, zf),
+                          glm::vec3(xf + 1, yf, zf), color, mask.direction);
+              Triangle t2(glm::vec3(xf + 1, yf, zf), glm::vec3(xf, yf + 1, zf),
+                          glm::vec3(xf + 1, yf + 1, zf), color, mask.direction);
+              model_data.triangles.emplace_back(t1);
+              model_data.triangles.emplace_back(t2);
+            }
+          }
+        }
+      }
+      break;
+    }
+    default:
+      std::cout << "[DEBUG] Unknown mask direction: "
+                << static_cast<int>(mask.direction) << std::endl;
+      break;
     }
   }
   std::cout << "[DEBUG] Finished CreateTrianglesFromMask()" << std::endl;

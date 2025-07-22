@@ -104,7 +104,13 @@ void Projector::BasicProjection(ModelData &model_data,
 void Projector::FixedAngleProjection(ModelData &model_data,
                                      const glm::vec3 &rotation) {
 
-  // treat the rotation as angles for each axis
+  // translate the model to the origin first
+  glm::vec3 model_size{static_cast<float>(model_data.size.x),
+                       static_cast<float>(model_data.size.y),
+                       static_cast<float>(model_data.size.z)};
+  glm::vec3 model_center = model_size * 0.5f;
+  glm::mat4 translate_to_origin =
+      glm::translate(glm::mat4(1.0f), -model_center);
   // create a one time rotation matrix and apply it to all triangles
   glm::mat4 rotation_matrix =
       glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x),
@@ -113,6 +119,11 @@ void Projector::FixedAngleProjection(ModelData &model_data,
                   glm::vec3(0.0f, 1.0f, 0.0f)) *
       glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z),
                   glm::vec3(0.0f, 0.0f, 1.0f));
+
+  // create an an overall model matrix that translates to origin, rotates and
+  // then translates back
+  glm::mat4 model_matrix =
+      -translate_to_origin * rotation_matrix * translate_to_origin;
 
   std::cout << "[DEBUG] FixedAngleProjection with rotation: (" << rotation.x
             << ", " << rotation.y << ", " << rotation.z << ")" << std::endl;
@@ -130,9 +141,7 @@ void Projector::FixedAngleProjection(ModelData &model_data,
   std::cout << "[DEBUG] Before back face culling: " << triangles.size()
             << " triangles" << std::endl;
   ImplementBackFaceCulling(triangles);
-  // ImplementCullingWithDirections(triangles,
-  //                                glm::vec3(rotation.x, rotation.y,
-  //                                rotation.z));
+
   std::cout << "[DEBUG] After back face culling: " << triangles.size()
             << " triangles" << std::endl;
   sf::VertexArray projected_data = ProjectOntoVertexArray(triangles);
@@ -190,10 +199,10 @@ void Projector::ImplementBackFaceCulling(
 
     // Debug print normal
 
-    if (normal.z < 0.0f) {
+    if (normal.z > 0.0f) {
       it = triangles.erase(it);
       ++culled_count;
-      std::cout << "[DEBUG] Culled a triangle (normal.z < 0)" << std::endl;
+
     } else {
       ++it; // Only increment if not erasing!
     }
@@ -285,12 +294,11 @@ sf::VertexArray Projector::ProjectOntoVertexArray(
 
   sf::VertexArray result(sf::PrimitiveType::Triangles);
 
-  for (size_t tri_idx = 0; tri_idx < triangles.size(); ++tri_idx) {
-    const auto &triangle = triangles[tri_idx];
-    for (size_t vert_idx = 0; vert_idx < triangle.vertices.size(); ++vert_idx) {
-      result.append(sf::Vertex(sf::Vector2f(triangle.vertices[vert_idx].x,
-                                            triangle.vertices[vert_idx].y),
-                               triangle.color));
+  for (const auto &triangle : triangles) {
+    // print out triangle vertices and color for debugging
+    for (const auto &vertex : triangle.vertices) {
+      result.append(
+          sf::Vertex(sf::Vector2f(vertex.x, vertex.y), triangle.color));
     }
   }
   return result;

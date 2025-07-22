@@ -35,7 +35,7 @@ int main() {
   hollow_lantern::Projector projector;
   // projector.BasicProjection(model_data, {30.f, 0.0f, 0.0f}, 8,
   //                           {0.0f, 1.0f, 0.0f});
-  projector.FixedAngleProjection(model_data, {0.f, 0.0f, 0.0f});
+  projector.FixedAngleProjection(model_data, {00.f, 0.0f, 0.0f});
 
   std::cout << "[DEBUG] Projected model data." << std::endl;
   // convenience reference to the projected shapes
@@ -77,7 +77,7 @@ int main() {
   view.zoom(0.1f); // Zoom in
   window.setView(view);
   // set the frame rate limit
-  window.setFramerateLimit(2);
+  window.setFramerateLimit(8);
   // run the program as long as the window is open
   while (window.isOpen()) {
     // check all the window's events that were triggered since the last
