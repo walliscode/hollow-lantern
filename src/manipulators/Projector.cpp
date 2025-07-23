@@ -7,6 +7,8 @@
 #include "ModelData.h"
 #include "glm/ext/matrix_transform.hpp"
 #include <SFML/Graphics/PrimitiveType.hpp>
+#include <array>
+#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -88,7 +90,8 @@ void Projector::BasicProjection(ModelData &model_data,
 
     std::cout << "[DEBUG] Before back face culling: " << triangles.size()
               << " triangles" << std::endl;
-    ImplementBackFaceCulling(triangles);
+    // ImplementBackFaceCulling(triangles);
+    ImplementCullingWithDirections(triangles, model_matric);
     std::cout << "[DEBUG] After back face culling: " << triangles.size()
               << " triangles" << std::endl;
 
@@ -104,7 +107,13 @@ void Projector::BasicProjection(ModelData &model_data,
 void Projector::FixedAngleProjection(ModelData &model_data,
                                      const glm::vec3 &rotation) {
 
-  // treat the rotation as angles for each axis
+  // translate the model to the origin first
+  glm::vec3 model_size{static_cast<float>(model_data.size.x),
+                       static_cast<float>(model_data.size.y),
+                       static_cast<float>(model_data.size.z)};
+  glm::vec3 model_center = model_size * 0.5f;
+  glm::mat4 translate_to_origin =
+      glm::translate(glm::mat4(1.0f), -model_center);
   // create a one time rotation matrix and apply it to all triangles
   glm::mat4 rotation_matrix =
       glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x),
@@ -114,6 +123,11 @@ void Projector::FixedAngleProjection(ModelData &model_data,
       glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z),
                   glm::vec3(0.0f, 0.0f, 1.0f));
 
+  // create an an overall model matrix that translates to origin, rotates and
+  // then translates back
+  glm::mat4 model_matrix =
+      -translate_to_origin * rotation_matrix * translate_to_origin;
+
   std::cout << "[DEBUG] FixedAngleProjection with rotation: (" << rotation.x
             << ", " << rotation.y << ", " << rotation.z << ")" << std::endl;
   std::vector<Triangle> triangles = model_data.triangles;
@@ -121,18 +135,16 @@ void Projector::FixedAngleProjection(ModelData &model_data,
     for (size_t vert_idx = 0; vert_idx < triangles[tri_idx].vertices.size();
          ++vert_idx) {
       glm::vec4 transformed_vertex =
-          rotation_matrix *
-          glm::vec4(triangles[tri_idx].vertices[vert_idx], 1.0f);
+          model_matrix * glm::vec4(triangles[tri_idx].vertices[vert_idx], 1.0f);
       triangles[tri_idx].vertices[vert_idx] = glm::vec3(
           transformed_vertex.x, transformed_vertex.y, transformed_vertex.z);
     }
   }
   std::cout << "[DEBUG] Before back face culling: " << triangles.size()
             << " triangles" << std::endl;
-  ImplementBackFaceCulling(triangles);
-  // ImplementCullingWithDirections(triangles,
-  //                                glm::vec3(rotation.x, rotation.y,
-  //                                rotation.z));
+  // ImplementBackFaceCulling(triangles);
+
+  ImplementCullingWithDirections(triangles, rotation_matrix);
   std::cout << "[DEBUG] After back face culling: " << triangles.size()
             << " triangles" << std::endl;
   sf::VertexArray projected_data = ProjectOntoVertexArray(triangles);
@@ -190,10 +202,10 @@ void Projector::ImplementBackFaceCulling(
 
     // Debug print normal
 
-    if (normal.z < 0.0f) {
+    if (normal.z > 0.0f) {
       it = triangles.erase(it);
       ++culled_count;
-      std::cout << "[DEBUG] Culled a triangle (normal.z < 0)" << std::endl;
+
     } else {
       ++it; // Only increment if not erasing!
     }
@@ -204,68 +216,92 @@ void Projector::ImplementBackFaceCulling(
 
 /////////////////////////////////////////////////
 void Projector::ImplementCullingWithDirections(
-    std::vector<Triangle> &triangles,
-    const glm::vec3 &rotation_direction) const {
+    std::vector<Triangle> &triangles, const glm::mat4 &rotation) const {
   size_t culled_count = 0;
+
+  // create vectors to represent the masks for each direction
+  std::array<glm::vec3, 6> face_vectors{
+      (glm::vec3(1.0f, 0.0f, 0.0f)),  // X_POSITIVE
+      (glm::vec3(-1.0f, 0.0f, 0.0f)), // X_NEGATIVE
+      (glm::vec3(0.0f, 1.0f, 0.0f)),  // Y_POSITIVE
+      (glm::vec3(0.0f, -1.0f, 0.0f)), // Y_NEGATIVE
+      (glm::vec3(0.0f, 0.0f, 1.0f)),  // Z_POSITIVE
+      (glm::vec3(0.0f, 0.0f, -1.0f))  // Z_NEGATIVE
+
+  };
+
+  // apply the rotation matrix to the face vectors
+  for (auto &face_vector : face_vectors) {
+    glm::vec4 transformed_vector = rotation * glm::vec4(face_vector, 0.0f);
+    face_vector = glm::vec3(transformed_vector.x, transformed_vector.y,
+                            transformed_vector.z);
+  }
+
+  // store the result of the dot product for each direction
+  std::array<bool, 6> facing_z_negative;
+  ;
+
+  for (size_t i = 0; i < face_vectors.size(); ++i) {
+    glm::vec3 face_vector = face_vectors[i];
+    // calculate the dot product with the  negative Z-axis
+    float dot_product = glm::dot(face_vector, glm::vec3(0.0f, 0.0f, -1.0f));
+
+    // [DEBUG] Print the dot product for each face vector
+    std::cout << "[DEBUG] Dot product for face vector " << i << ": "
+              << dot_product << std::endl;
+
+    facing_z_negative[i] = (dot_product > 0.0f);
+    std::cout << "[DEBUG] Facing Z negative for face vector " << i << ": "
+              << std::boolalpha << facing_z_negative[i] << std::endl;
+  }
   for (auto it = triangles.begin(); it != triangles.end();) {
 
     switch (it->direction) {
     case (Direction::X_POSITIVE):
-      if (rotation_direction.x < 0.0f) {
+      if (!facing_z_negative[0]) {
+
         it = triangles.erase(it);
         ++culled_count;
-        std::cout << "[DEBUG] Culled a triangle (X_POSITIVE direction)"
-                  << std::endl;
       } else {
         ++it; // Only increment if not erasing!
       }
       break;
     case (Direction::X_NEGATIVE):
-      if (rotation_direction.x > 0.0f) {
+      if (!facing_z_negative[1]) {
         it = triangles.erase(it);
         ++culled_count;
-        std::cout << "[DEBUG] Culled a triangle (X_NEGATIVE direction)"
-                  << std::endl;
       } else {
         ++it; // Only increment if not erasing!
       }
       break;
     case (Direction::Y_POSITIVE):
-      if (rotation_direction.y < 0.0f) {
+      if (!facing_z_negative[2]) {
         it = triangles.erase(it);
         ++culled_count;
-        std::cout << "[DEBUG] Culled a triangle (Y_POSITIVE direction)"
-                  << std::endl;
       } else {
         ++it; // Only increment if not erasing!
       }
       break;
     case (Direction::Y_NEGATIVE):
-      if (rotation_direction.y > 0.0f) {
+      if (!facing_z_negative[3]) {
         it = triangles.erase(it);
         ++culled_count;
-        std::cout << "[DEBUG] Culled a triangle (Y_NEGATIVE direction)"
-                  << std::endl;
       } else {
         ++it; // Only increment if not erasing!
       }
       break;
     case (Direction::Z_POSITIVE):
-      if (rotation_direction.z < 0.0f) {
+      if (!facing_z_negative[4]) {
         it = triangles.erase(it);
         ++culled_count;
-        std::cout << "[DEBUG] Culled a triangle (Z_POSITIVE direction)"
-                  << std::endl;
       } else {
         ++it; // Only increment if not erasing!
       }
       break;
     case (Direction::Z_NEGATIVE):
-      if (rotation_direction.z > 0.0f) {
+      if (!facing_z_negative[5]) {
         it = triangles.erase(it);
         ++culled_count;
-        std::cout << "[DEBUG] Culled a triangle (Z_NEGATIVE direction)"
-                  << std::endl;
       } else {
         ++it; // Only increment if not erasing!
       }
@@ -285,12 +321,11 @@ sf::VertexArray Projector::ProjectOntoVertexArray(
 
   sf::VertexArray result(sf::PrimitiveType::Triangles);
 
-  for (size_t tri_idx = 0; tri_idx < triangles.size(); ++tri_idx) {
-    const auto &triangle = triangles[tri_idx];
-    for (size_t vert_idx = 0; vert_idx < triangle.vertices.size(); ++vert_idx) {
-      result.append(sf::Vertex(sf::Vector2f(triangle.vertices[vert_idx].x,
-                                            triangle.vertices[vert_idx].y),
-                               triangle.color));
+  for (const auto &triangle : triangles) {
+    // print out triangle vertices and color for debugging
+    for (const auto &vertex : triangle.vertices) {
+      result.append(
+          sf::Vertex(sf::Vector2f(vertex.x, vertex.y), triangle.color));
     }
   }
   return result;

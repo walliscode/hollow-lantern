@@ -46,7 +46,7 @@ struct Voxel {
   bool is_visible{false};
 
   /////////////////////////////////////////////////
-  /// @brief Indicates if the voxel has 6 immediate neighbours
+  /// @brief Indicates if the voxel has 6 imm
   /////////////////////////////////////////////////
   bool is_internal_voxel{false};
 };
