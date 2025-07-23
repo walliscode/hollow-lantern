@@ -33,9 +33,9 @@ int main() {
   std::cout << "[DEBUG] Hollowed and meshed model data." << std::endl;
   // create a Projector instance to project the 3D model data onto 2D shapes
   hollow_lantern::Projector projector;
-  // projector.BasicProjection(model_data, {30.f, 0.0f, 0.0f}, 8,
-  //                           {0.0f, 1.0f, 0.0f});
-  projector.FixedAngleProjection(model_data, {00.f, 0.0f, 0.0f});
+  projector.BasicProjection(model_data, {30.f, 0.0f, 0.0f}, 36,
+                            {0.0f, 1.0f, 0.0f});
+  // projector.FixedAngleProjection(model_data, {30.f, 45.0f, 0.0f});
 
   std::cout << "[DEBUG] Projected model data." << std::endl;
   // convenience reference to the projected shapes

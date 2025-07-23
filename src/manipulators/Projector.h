@@ -39,9 +39,9 @@ private:
   /////////////////////////////////////////////////
   void ImplementBackFaceCulling(std::vector<Triangle> &triangles) const;
 
-  void
-  ImplementCullingWithDirections(std::vector<Triangle> &triangles,
-                                 const glm::vec3 &rotation_direction) const;
+  void ImplementCullingWithDirections(
+      std::vector<Triangle> &triangles,
+      const glm::mat4 &rotational_transformation) const;
   /////////////////////////////////////////////////
   /// @brief Turns 3D triangles into a 2D vertex array of type triangles
   ///
