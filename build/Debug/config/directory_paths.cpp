@@ -11,6 +11,10 @@ const std::filesystem::path getSchemaFolder() {
 }
 
 /////////////////////////////////////////////////
+const std::filesystem::path getExportFolder() {
+  return getDataFolder() / "export";
+}
+/////////////////////////////////////////////////
 const std::filesystem::path getTestDataFolder() {
   return getDataFolder() / "test_data";
 }

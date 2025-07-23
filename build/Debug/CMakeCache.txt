@@ -607,6 +607,10 @@ FETCHCONTENT_SOURCE_DIR_CGAL:PATH=
 FETCHCONTENT_SOURCE_DIR_GLM:PATH=
 
 //When not empty, overrides where to find pre-populated content
+// for json
+FETCHCONTENT_SOURCE_DIR_JSON:PATH=
+
+//When not empty, overrides where to find pre-populated content
 // for SFML
 FETCHCONTENT_SOURCE_DIR_SFML:PATH=
 
@@ -621,6 +625,9 @@ FETCHCONTENT_UPDATES_DISCONNECTED_CGAL:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of glm
 FETCHCONTENT_UPDATES_DISCONNECTED_GLM:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of json
+FETCHCONTENT_UPDATES_DISCONNECTED_JSON:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of SFML
 FETCHCONTENT_UPDATES_DISCONNECTED_SFML:BOOL=OFF
@@ -726,6 +733,39 @@ GMP_LIBRARY_DEBUG:FILEPATH=/usr/lib/libgmp.so
 
 //Path to the Release GMP library
 GMP_LIBRARY_RELEASE:FILEPATH=/lib/libgmp.so
+
+//Build the unit tests when BUILD_TESTING is enabled.
+JSON_BuildTests:BOOL=OFF
+
+//Enable CI build targets.
+JSON_CI:BOOL=OFF
+
+//Enable diagnostic positions.
+JSON_Diagnostic_Positions:BOOL=OFF
+
+//Use extended diagnostic messages.
+JSON_Diagnostics:BOOL=OFF
+
+//Disable default integer enum serialization.
+JSON_DisableEnumSerialization:BOOL=OFF
+
+//Place user-defined string literals in the global namespace.
+JSON_GlobalUDLs:BOOL=ON
+
+//Enable implicit conversions.
+JSON_ImplicitConversions:BOOL=ON
+
+//Install CMake targets during install step.
+JSON_Install:BOOL=OFF
+
+//Enable legacy discarded value comparison.
+JSON_LegacyDiscardedValueComparison:BOOL=OFF
+
+//Use non-amalgamated version of the library.
+JSON_MultipleHeaders:BOOL=ON
+
+//Include as system headers (skip for clang-tidy).
+JSON_SystemInclude:BOOL=OFF
 
 //Command to build the project
 MAKECOMMAND:STRING=/opt/cmake/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
@@ -1315,6 +1355,15 @@ hollow-lantern_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 hollow-lantern_SOURCE_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern
 
+//Value Computed by CMake
+nlohmann_json_BINARY_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build
+
+//Value Computed by CMake
+nlohmann_json_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+nlohmann_json_SOURCE_DIR:STATIC=/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-src
+
 //Path to a library.
 pkgcfg_lib_PKG_FONTCONFIG_fontconfig:FILEPATH=/usr/lib/libfontconfig.so
 
@@ -1613,7 +1662,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=22
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=23
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1720,6 +1769,7 @@ MAKECOMMAND-ADVANCED:INTERNAL=1
 MEMORYCHECK_COMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MEMORYCHECK_SUPPRESSIONS_FILE
 MEMORYCHECK_SUPPRESSIONS_FILE-ADVANCED:INTERNAL=1
+NLOHMANN_JSON_CONFIG_INSTALL_DIR:INTERNAL=share/cmake/nlohmann_json
 //ADVANCED property for variable: OGG_INCLUDE_DIR
 OGG_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OGG_LIBRARY

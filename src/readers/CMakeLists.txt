@@ -1,5 +1,6 @@
 add_library(readers
 VoxReader.cpp
+DataExporter.cpp
 )
 
 target_include_directories(readers
@@ -14,4 +15,5 @@ directory_paths
 structures
 glm
 SFML::Graphics
+nlohmann_json::nlohmann_json
 )

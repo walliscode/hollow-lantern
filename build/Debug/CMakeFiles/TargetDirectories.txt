@@ -90,6 +90,13 @@
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-build/src/SFML/Audio/CMakeFiles/install.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-build/src/SFML/Audio/CMakeFiles/install/local.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-build/src/SFML/Audio/CMakeFiles/install/strip.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/test.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/edit_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/rebuild_cache.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/list_install_components.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/install.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/install/local.dir
+/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/json-build/CMakeFiles/install/strip.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/CMakeFiles/directory_paths.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/CMakeFiles/test.dir
 /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/config/CMakeFiles/edit_cache.dir

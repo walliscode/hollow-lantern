@@ -20,6 +20,7 @@
 		"/home/bwallis/projects/walliscode/hollow-lantern/config",
 		"/home/bwallis/projects/walliscode/hollow-lantern/src/structures",
 		"_deps/glm-src",
+		"_deps/json-src/include",
 		"_deps/sfml-src/include"
 	],
 	"language" : "CXX",
