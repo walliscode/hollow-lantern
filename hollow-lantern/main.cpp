@@ -6,6 +6,7 @@
 /////////////////////////////////////////////////
 /// Headers
 /////////////////////////////////////////////////
+#include "DataExporter.h"
 #include "ModelData.h"
 #include "Projector.h"
 #include "VoxManipulator.h"
@@ -33,11 +34,16 @@ int main() {
   std::cout << "[DEBUG] Hollowed and meshed model data." << std::endl;
   // create a Projector instance to project the 3D model data onto 2D shapes
   hollow_lantern::Projector projector;
-  projector.BasicProjection(model_data, {30.f, 0.0f, 0.0f}, 36,
+  projector.BasicProjection(model_data, {0.f, 0.0f, 0.0f}, 4,
                             {0.0f, 1.0f, 0.0f});
   // projector.FixedAngleProjection(model_data, {30.f, 45.0f, 0.0f});
 
   std::cout << "[DEBUG] Projected model data." << std::endl;
+
+  // export the model data to a JSON file
+  hollow_lantern::DataExporter data_exporter;
+  data_exporter.ExportToJSON(model_data);
+
   // convenience reference to the projected shapes
   std::vector<sf::VertexArray> projected_shapes;
   if (!model_data.triangle_data.empty()) {

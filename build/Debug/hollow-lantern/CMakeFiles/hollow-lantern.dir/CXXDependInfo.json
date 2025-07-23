@@ -18,6 +18,7 @@
 		"/home/bwallis/projects/walliscode/hollow-lantern/config",
 		"/home/bwallis/projects/walliscode/hollow-lantern/src/structures",
 		"_deps/glm-src",
+		"_deps/json-src/include",
 		"/home/bwallis/projects/walliscode/hollow-lantern/src/manipulators",
 		"_deps/sfml-src/include"
 	],

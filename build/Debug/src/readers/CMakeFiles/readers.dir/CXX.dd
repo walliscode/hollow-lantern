@@ -1,3 +1,5 @@
 ninja_dyndep_version = 1.0
 build src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o: dyndep
 
+build src/readers/CMakeFiles/readers.dir/DataExporter.cpp.o: dyndep
+

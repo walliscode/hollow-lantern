@@ -15,6 +15,11 @@ const std::filesystem::path getDataFolder();
 const std::filesystem::path getSchemaFolder();
 
 /////////////////////////////////////////////////
+/// @brief returns the path to the export folder
+/////////////////////////////////////////////////
+const std::filesystem::path getExportFolder();
+
+/////////////////////////////////////////////////
 /// @brief returns the path to the test data folder
 /////////////////////////////////////////////////
 const std::filesystem::path getTestDataFolder();

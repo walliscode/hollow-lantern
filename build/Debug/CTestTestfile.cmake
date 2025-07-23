@@ -7,6 +7,7 @@
 subdirs("_deps/catch2-build")
 subdirs("_deps/glm-build")
 subdirs("_deps/sfml-build")
+subdirs("_deps/json-build")
 subdirs("config")
 subdirs("src")
 subdirs("hollow-lantern")
