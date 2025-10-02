@@ -4,6 +4,6 @@ message(VERBOSE "Executing download step for sfml")
 
 block(SCOPE_FOR VARIABLES)
 
-include("/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/CMakeFiles/fc-tmp/sfml/sfml-gitclone.cmake")
+include("/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/CMakeFiles/fc-tmp/sfml/sfml-gitclone.cmake")
 
 endblock()

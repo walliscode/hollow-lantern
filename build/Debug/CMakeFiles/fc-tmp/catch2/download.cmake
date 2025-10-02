@@ -4,6 +4,6 @@ message(VERBOSE "Executing download step for catch2")
 
 block(SCOPE_FOR VARIABLES)
 
-include("/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/CMakeFiles/fc-tmp/catch2/catch2-gitclone.cmake")
+include("/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/CMakeFiles/fc-tmp/catch2/catch2-gitclone.cmake")
 
 endblock()

@@ -6,31 +6,31 @@
 	"config" : "Debug",
 	"cxx-modules" : {},
 	"database-info" : null,
-	"dir-cur-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern",
-	"dir-cur-src" : "/home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern",
-	"dir-top-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
-	"dir-top-src" : "/home/bwallis/projects/walliscode/hollow-lantern",
+	"dir-cur-bld" : "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/hollow-lantern",
+	"dir-cur-src" : "/home/runner/work/hollow-lantern/hollow-lantern/hollow-lantern",
+	"dir-top-bld" : "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug",
+	"dir-top-src" : "/home/runner/work/hollow-lantern/hollow-lantern",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : 
 	[
-		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers",
-		"/home/bwallis/projects/walliscode/hollow-lantern/config",
-		"/home/bwallis/projects/walliscode/hollow-lantern/src/structures",
+		"/home/runner/work/hollow-lantern/hollow-lantern/src/readers",
+		"/home/runner/work/hollow-lantern/hollow-lantern/config",
+		"/home/runner/work/hollow-lantern/hollow-lantern/src/structures",
 		"_deps/glm-src",
 		"_deps/json-src/include",
-		"/home/bwallis/projects/walliscode/hollow-lantern/src/manipulators",
+		"/home/runner/work/hollow-lantern/hollow-lantern/src/manipulators",
 		"_deps/sfml-src/include"
 	],
 	"language" : "CXX",
 	"linked-target-dirs" : [],
-	"module-dir" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir",
+	"module-dir" : "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/hollow-lantern/CMakeFiles/hollow-lantern.dir",
 	"sources" : 
 	{
 		"hollow-lantern/CMakeFiles/hollow-lantern.dir/main.cpp.o" : 
 		{
 			"language" : "CXX",
-			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/hollow-lantern/main.cpp"
+			"source" : "/home/runner/work/hollow-lantern/hollow-lantern/hollow-lantern/main.cpp"
 		}
 	}
 }

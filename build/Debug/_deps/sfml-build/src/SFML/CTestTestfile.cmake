@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-src/src/SFML
-# Build directory: /home/bwallis/projects/walliscode/hollow-lantern/build/Debug/_deps/sfml-build/src/SFML
+# Source directory: /home/runner/work/hollow-lantern/hollow-lantern/build/Debug/_deps/sfml-src/src/SFML
+# Build directory: /home/runner/work/hollow-lantern/hollow-lantern/build/Debug/_deps/sfml-build/src/SFML
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

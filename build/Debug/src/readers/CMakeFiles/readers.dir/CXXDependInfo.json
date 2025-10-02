@@ -6,35 +6,35 @@
 	"config" : "Debug",
 	"cxx-modules" : {},
 	"database-info" : null,
-	"dir-cur-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers",
-	"dir-cur-src" : "/home/bwallis/projects/walliscode/hollow-lantern/src/readers",
-	"dir-top-bld" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug",
-	"dir-top-src" : "/home/bwallis/projects/walliscode/hollow-lantern",
+	"dir-cur-bld" : "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/src/readers",
+	"dir-cur-src" : "/home/runner/work/hollow-lantern/hollow-lantern/src/readers",
+	"dir-top-bld" : "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug",
+	"dir-top-src" : "/home/runner/work/hollow-lantern/hollow-lantern",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : 
 	[
-		"/home/bwallis/projects/walliscode/hollow-lantern/src/readers",
-		"/home/bwallis/projects/walliscode/hollow-lantern/config",
-		"/home/bwallis/projects/walliscode/hollow-lantern/src/structures",
+		"/home/runner/work/hollow-lantern/hollow-lantern/src/readers",
+		"/home/runner/work/hollow-lantern/hollow-lantern/config",
+		"/home/runner/work/hollow-lantern/hollow-lantern/src/structures",
 		"_deps/glm-src",
 		"_deps/json-src/include",
 		"_deps/sfml-src/include"
 	],
 	"language" : "CXX",
 	"linked-target-dirs" : [],
-	"module-dir" : "/home/bwallis/projects/walliscode/hollow-lantern/build/Debug/src/readers/CMakeFiles/readers.dir",
+	"module-dir" : "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/src/readers/CMakeFiles/readers.dir",
 	"sources" : 
 	{
 		"src/readers/CMakeFiles/readers.dir/DataExporter.cpp.o" : 
 		{
 			"language" : "CXX",
-			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/src/readers/DataExporter.cpp"
+			"source" : "/home/runner/work/hollow-lantern/hollow-lantern/src/readers/DataExporter.cpp"
 		},
 		"src/readers/CMakeFiles/readers.dir/VoxReader.cpp.o" : 
 		{
 			"language" : "CXX",
-			"source" : "/home/bwallis/projects/walliscode/hollow-lantern/src/readers/VoxReader.cpp"
+			"source" : "/home/runner/work/hollow-lantern/hollow-lantern/src/readers/VoxReader.cpp"
 		}
 	}
 }

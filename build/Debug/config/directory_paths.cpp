@@ -3,7 +3,7 @@
 
 namespace config {
 ////////////////////////////////////////////////////////////
-const std::filesystem::path getDataFolder() { return "/home/bwallis/projects/walliscode/hollow-lantern/data"; };
+const std::filesystem::path getDataFolder() { return "/home/runner/work/hollow-lantern/hollow-lantern/data"; };
 
 /////////////////////////////////////////////////
 const std::filesystem::path getSchemaFolder() {
