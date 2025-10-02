@@ -25,13 +25,15 @@ Hollow Lantern converts 3D voxel model data (MagicaVoxel .vox format) into 2D pr
 ### Prerequisites
 - CMake 3.31+
 - Clang++ with libc++ (required for C++23 std::expected)
+- Qt6 (6.4+) for GUI application
 - System dependencies (Linux):
   ```bash
   sudo apt-get install -y \
     libx11-dev libxrandr-dev libxcursor-dev libxi-dev \
     libgl1-mesa-dev libudev-dev libfreetype-dev \
     libogg-dev libvorbis-dev libflac-dev libopenal-dev \
-    libcgal-dev libc++-18-dev libc++abi-18-dev
+    libcgal-dev libc++-18-dev libc++abi-18-dev \
+    qt6-base-dev qt6-base-dev-tools libqt6opengl6-dev
   ```
 
 ### Build Commands
@@ -44,6 +46,12 @@ cmake --build --preset Debug
 
 # Run tests
 ctest --preset Debug
+
+# Run GUI application
+./build/Debug/hollow-lantern-gui/hollow-lantern-gui
+
+# Run CLI application (legacy)
+./build/Debug/hollow-lantern/hollow-lantern
 ```
 
 The project uses CMake presets (Debug and Release) configured in `CMakePresets.json`.
@@ -63,12 +71,13 @@ cmake --workflow --preset Debug
 ```
 
 Current test coverage:
-- VoxReader: File loading and parsing
-- VoxManipulator: Hollowing and meshing operations
-- Projector: 3D to 2D projection
-- Configuration: Directory path handling
+- **VoxReader**: File loading and parsing
+- **VoxManipulator**: Hollowing and meshing operations
+- **Projector**: 3D to 2D projection
+- **Configuration**: Directory path handling
+- **GUI Components**: MainWindow creation, menu bar, status bar, signals/slots, keyboard shortcuts, memory management (10 comprehensive tests)
 
-All tests must pass before committing changes.
+All tests must pass before committing changes. Current status: **14/14 tests passing (100%)**.
 
 ## Qt6 GUI Development
 
@@ -84,7 +93,7 @@ The project is being converted to a Qt6-based GUI application. See the following
 
 - **[Project Plan](PROJECT_PLAN.md)**: Detailed 7-phase implementation plan:
   1. ✅ Build System & Dependencies (Completed)
-  2. Qt6 Integration Setup
+  2. ✅ Qt6 Integration Setup (Completed)
   3. File Selection & Loading UI
   4. Model Statistics Display
   5. Model Visualization
@@ -100,13 +109,18 @@ The project is being converted to a Qt6-based GUI application. See the following
 - Recent files menu and keyboard shortcuts
 
 ### Current Status
-Phase 1 (Build System & Dependencies) is complete:
+**Phase 2 (Qt6 Integration Setup) is complete:**
 - ✅ C++23 std::expected support with libc++
-- ✅ All existing tests passing
-- ✅ Comprehensive documentation
-- ✅ Ready for Qt6 integration
+- ✅ Qt6 successfully integrated into build system
+- ✅ Basic MainWindow GUI application working
+- ✅ Comprehensive test suite (14/14 tests passing)
+- ✅ Menu bar with File menu (Open, Exit actions)
+- ✅ Status bar with message display
+- ✅ Qt signals/slots infrastructure working
+- ✅ Keyboard shortcuts configured
+- ✅ Memory management verified
 
-**Next Step**: Begin Phase 2 (Qt6 Integration Setup)
+**Next Step**: Begin Phase 3 (File Selection & Loading UI)
 
 ## Contributing
 
