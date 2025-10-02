@@ -369,3 +369,11 @@ CMakeUserPresets.json
 # data output files 
 .data_out/
 .dwo
+
+# CMake build directories
+build/
+Build/
+
+# Ninja build files
+.ninja_deps
+.ninja_log

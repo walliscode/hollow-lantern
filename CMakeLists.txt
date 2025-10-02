@@ -22,6 +22,12 @@ endif()
 # Always enforce the language constraint
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Use libc++ with Clang for C++23 features like std::expected
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-stdlib=libc++)
+  add_link_options(-stdlib=libc++ -lc++abi)
+endif()
+
 
 # set the cmake module path (for import libraries and other cmake files)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/fetch-content-modules")
