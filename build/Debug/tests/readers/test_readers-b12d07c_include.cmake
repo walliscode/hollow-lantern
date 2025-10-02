@@ -1,5 +1,0 @@
-if(EXISTS "/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/tests/readers/test_readers-b12d07c_tests.cmake")
-  include("/home/runner/work/hollow-lantern/hollow-lantern/build/Debug/tests/readers/test_readers-b12d07c_tests.cmake")
-else()
-  add_test(test_readers_NOT_BUILT-b12d07c test_readers_NOT_BUILT-b12d07c)
-endif()
