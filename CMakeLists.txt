@@ -39,10 +39,12 @@ include(fetch-content-modules)
 
 # find packages on system
 find_package(CGAL REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets OpenGLWidgets Test)
 
 add_subdirectory(config)
 add_subdirectory(src)
 add_subdirectory(hollow-lantern)
+add_subdirectory(hollow-lantern-gui)
 add_subdirectory(tests)
 
 
