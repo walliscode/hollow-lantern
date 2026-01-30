@@ -14,7 +14,32 @@ These documents contain the complete plan to migrate Hollow Lantern from **Qt6**
 
 ## 📚 Document Quick Links
 
-### 🚀 Start Here
+### 🚀 Start Here (NEW DOCS FOR RUNTIME CONFIGURATION)
+
+**If you want to know if ground-up rebuild is needed: (ANALYSIS ONLY)**
+→ **[RUNTIME_CONFIGURATION_ANALYSIS.md](RUNTIME_CONFIGURATION_ANALYSIS.md)** ⭐ NEW
+- Comprehensive analysis of current architecture
+- Ground-up vs incremental comparison
+- Detailed requirement analysis
+- 85% code reuse demonstrated
+- Strong recommendation: incremental approach
+
+→ **[GROUND_UP_VS_INCREMENTAL.md](GROUND_UP_VS_INCREMENTAL.md)** ⭐ NEW
+- Direct answer: Should we rebuild from scratch?
+- Decision matrix with weights
+- Cost-benefit analysis ($6k vs $38k)
+- Timeline comparison (11 days vs 56 days)
+- Risk analysis
+- Final verdict: DO NOT rebuild
+
+→ **[IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md)** ⭐ NEW
+- Day-by-day implementation plan
+- Complete code examples
+- Testing strategy
+- Deployment milestones
+- Rollback plan
+
+### 📊 Original Migration Planning
 
 **If you want a quick overview (5 minutes):**
 → **[EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)**
@@ -61,23 +86,31 @@ These documents contain the complete plan to migrate Hollow Lantern from **Qt6**
 
 ## 🗺️ Reading Path Recommendations
 
-### For Decision Makers
+### ⭐ For "Should We Rebuild?" Question (START HERE)
+1. **GROUND_UP_VS_INCREMENTAL.md** - Direct answer: NO (15 min)
+2. **RUNTIME_CONFIGURATION_ANALYSIS.md** - Deep dive on why (15 min)
+3. **IMPLEMENTATION_ROADMAP.md** - What to do instead (20 min)
+4. **Make decision** - Approve incremental approach
+
+### For Decision Makers (Original Migration Docs)
 1. Start with **EXECUTIVE_SUMMARY.md** (5 min)
 2. Look at **VISUAL_DIAGRAMS.md** for visuals (10 min)
 3. Read **QT_VS_IMGUI_COMPARISON.md** for detailed rationale (20 min)
 4. Make approval decision
 
 ### For Developers
-1. Read **EXECUTIVE_SUMMARY.md** for context (5 min)
-2. Review **QT_VS_IMGUI_COMPARISON.md** for technical details (20 min)
-3. Study **IMGUI_MIGRATION_PLAN.md** for implementation (30 min)
-4. Keep **QT_REMOVAL_SUMMARY.md** handy as checklist
+1. **NEW**: Read **IMPLEMENTATION_ROADMAP.md** for day-by-day plan (20 min)
+2. Read **EXECUTIVE_SUMMARY.md** for context (5 min)
+3. Review **QT_VS_IMGUI_COMPARISON.md** for technical details (20 min)
+4. Study **IMGUI_MIGRATION_PLAN.md** for implementation (30 min)
+5. Keep **QT_REMOVAL_SUMMARY.md** handy as checklist
 
 ### For Project Managers
-1. **EXECUTIVE_SUMMARY.md** - Overview and timeline
-2. **VISUAL_DIAGRAMS.md** - See the changes visually
-3. **IMGUI_MIGRATION_PLAN.md** - Review risk assessment section
-4. Use timeline for project planning
+1. **NEW**: **GROUND_UP_VS_INCREMENTAL.md** - Cost/benefit analysis
+2. **NEW**: **IMPLEMENTATION_ROADMAP.md** - Detailed timeline
+3. **EXECUTIVE_SUMMARY.md** - Overview and timeline
+4. **VISUAL_DIAGRAMS.md** - See the changes visually
+5. **IMGUI_MIGRATION_PLAN.md** - Review risk assessment section
 
 ---
 
@@ -85,13 +118,16 @@ These documents contain the complete plan to migrate Hollow Lantern from **Qt6**
 
 | Document | Size | Type | Purpose | Read Time |
 |----------|------|------|---------|-----------|
+| **⭐ RUNTIME_CONFIGURATION_ANALYSIS.md** | 18KB | **Analysis** | **Ground-up vs incremental** | **15 min** |
+| **⭐ GROUND_UP_VS_INCREMENTAL.md** | 18KB | **Decision** | **Should rebuild? NO** | **15 min** |
+| **⭐ IMPLEMENTATION_ROADMAP.md** | 20KB | **Roadmap** | **Day-by-day plan** | **20 min** |
 | **EXECUTIVE_SUMMARY.md** | 11KB | Overview | Quick understanding | 5 min |
 | **VISUAL_DIAGRAMS.md** | 25KB | Visual | See architecture changes | 10 min |
 | **QT_VS_IMGUI_COMPARISON.md** | 15KB | Analysis | Understand WHY | 20 min |
 | **IMGUI_MIGRATION_PLAN.md** | 24KB | Technical | Know HOW | 30 min |
 | **QT_REMOVAL_SUMMARY.md** | 7KB | Reference | Quick checklist | 10 min |
 
-**Total reading time:** ~75 minutes for everything (but you probably don't need all of it!)
+**Total reading time:** ~125 minutes for everything (but read the ⭐ NEW docs first!)
 
 ---
 
